@@ -36,10 +36,11 @@ class Film:
         pass
 
 
-    def aantal_filmen(self):
-        """
-        Geeft het aantal filmen in de database
+# Dit is een functie, aub geen method van maken
+def aantal_filmen():
+    """
+    Geeft het aantal filmen in de database
 
-        :return: aantal filmen in de database (int in tuple)
-        """
-        pass
+    :return: aantal filmen in de database (int in tuple)
+    """
+    pass

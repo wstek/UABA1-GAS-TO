@@ -35,6 +35,7 @@ class Reservatie:
         pass
 
 
+# Dit is een functie, aub geen method van maken
 def aantal_reservaties(vertoning_id=None):
     """
     Geeft aantal reservaties (als vertoning_id gegeven, dan geeft die aantal reservaties voor die vertoning)

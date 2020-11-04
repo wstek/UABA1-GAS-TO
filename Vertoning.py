@@ -37,10 +37,11 @@ class Vertoning:
         pass
 
 
-    def aantal_vertoningen(self):
-        """
-        Geeft het aantal vertoningen in de database
+# Dit is een functie, aub geen method van maken
+def aantal_vertoningen():
+    """
+    Geeft het aantal vertoningen in de database
 
-        :return: aantal vertoningen (int in tuple)
-        """
-        pass
+    :return: aantal vertoningen (int in tuple)
+    """
+    pass

@@ -51,6 +51,7 @@ class Gebruiker:
         pass
 
 
+# Dit is een functie, aub geen method van maken
 def gebruiker_id(email):
     """
     Geeft de gebruiker_id van de gebruiker
@@ -65,6 +66,7 @@ def gebruiker_id(email):
     pass
 
 
+# Dit is een functie, aub geen method van maken
 def aantal_gebruikers():
     """
     Geeft het aantal gebruikers in de database
@@ -72,4 +74,3 @@ def aantal_gebruikers():
     :return: aantal gebruikers (int in tuple)
     """
     pass
-#Hallo
