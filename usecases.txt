@@ -1,0 +1,22 @@
+- Een gebruiker maakt een account.
+- Een gebruiker verwijdert zijn account.
+
+# Gebruiker heeft geen account
+- Een gebruiker meldt zich aan zonder account en krijgt een foutmelding.
+- Een gebruiker zonder account bekijkt de film die hij wil bekijken en wil een reservatie maken. Hij krijgt een melding die zegt dat hij een account moet maken vooraleer je een reservatie kan maken.
+
+# Gebruiker heeft account
+- Een gebruiker meldt zich aan
+- Een gebruiker heeft zijn wachtwoord vergeten en verandert het
+- Een gebruiker bekijkt zijn reservatie(s)
+- Een gebruiker maakt een reservatie
+- Een gebruiker bekijkt de beschikbare tijdsloten voor een vertoning
+- Een gebruiker annuleert een reservatie
+- Een gebruiker met een account meldt zich aan, bekijkt de film die hij wil bekijken en ziet dat die uitverkocht is. Hij meldt zich terug af
+
+# Voorpagina
+- Kies taal als de gebruiker niet aangemeld is
+- Toon films en sorteer op populariteit, andere keuzes: films die op een bepaalde datum vertoont worden, verwachte films
+- Zoek film op naam
+
+- Kies taal van de film
