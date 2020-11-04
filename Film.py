@@ -1,5 +1,6 @@
 """
 ADT voor film
+Dit is een test
 """
 
 class Film:
@@ -35,7 +36,7 @@ class Film:
         pass
 
 
-    def aantal_filmen():
+    def aantal_filmen(self):
         """
         Geeft het aantal filmen in de database
 
