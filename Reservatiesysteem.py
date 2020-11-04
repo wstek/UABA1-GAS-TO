@@ -111,15 +111,15 @@ class Reservatiesysteem:
         """
         pass
 
-    def verzoek_reservaties(self, gebruiker_id):
-        """
-        Geeft een tuple met alle reservaties van de gebruiker
+def verzoek_reservaties(self, gebruiker_id):
+    """
+    Geeft een tuple met alle reservaties van de gebruiker
 
-        :param gebruiker_id: id van de gebruiker (int)
-        :return: tuple met alle reservatie_id's van de gebruiker (int in tuple)
+    :param gebruiker_id: id van de gebruiker (int)
+    :return: tuple met alle reservatie_id's van de gebruiker (int in tuple)
 
-        precondities:
-            gebruiker is aangemeld
-            gebruiker_id > 0 en int
-        """
-        pass
+    precondities:
+        gebruiker is aangemeld
+        gebruiker_id > 0 en int
+    """
+    pass
