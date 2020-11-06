@@ -4,38 +4,38 @@ ADT voor vertoning
 #Implementeren: Stein
 #Testen: Sam
 class Vertoning:
-    def __init__(self, zaalnummer, film_id, slot, datum_vertoning):
+    def __init__(self, zaalnummer, film_id, timeslot, datum_vertoning):
         """
         Maakt een nieuwe vertoning aan
         Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
         :param zaalnummer: zaalnummer (int)
         :param film_id: id van de film (int)
-        :param slot: tijdsslot (string)
+        :param timeslot: timeslot (string)
         :param datum_vertoning: datum van de vertoning (int)
 
         precondities
             zaalnummer, film_id, datum_vertoning > 0 en int
-            slot is een string
+            timeslot is een string
         postcondities:
             Object vertoning is aangemaakt
         """
         pass
 
-    def verwijder(self):
+    def delete(self):
         """
         Verwijdert een vertoning
 
         :return: None
 
         precondities:
-            vertoning bestaat in de database
+            vertoning bestaat
         postcondities:
-            1 vertoning minder in de database
+            vertoning is verwijderd
         """
         pass
 
-    def plaatsen_gereserveerd(self,aantal_gereserveerde_plaatsen):
+    def reserve_places(self, reserved_places):
         """
         Het aantal plaatsen dat gereserveerd wordt, wordt afgetrokken van het aantal vrije plaatsen
         :param aantal_gereserveerde_plaatsen: Het aantal plaatsen dat gereserveerd wordt (int)
@@ -46,7 +46,7 @@ class Vertoning:
             De vertoning bestaat
 
         :postconditie:
-            Aantal vrije plaatsen -= aantal gereserveerde plaatsen
+            empty_places -= reserved_places
         """
 
 

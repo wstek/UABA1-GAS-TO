@@ -8,12 +8,12 @@ class Reservatiesysteem:
         pass
 
 
-    def meld_aan(self, gebruiker_id, wachtwoord):
+    def log_in(self, gebruiker_id, password):
         """
         Meldt een gebruiker aan
 
         :param gebruiker_id: id van de gebruiker (int)
-        :param wachtwoord: wachtwoord van de gebruiker (string)
+        :param password: password van de gebruiker (string)
         :return: None
 
         precondities:
@@ -21,7 +21,7 @@ class Reservatiesysteem:
         """
         pass
 
-    def meld_af(self, gebruiker_id):
+    def log_out(self, gebruiker_id):
         """
         Meldt een gebruiker af
 
@@ -33,18 +33,18 @@ class Reservatiesysteem:
         """
         pass
 
-    def wachtwoord_vergeten(self, email):
+    def forgot_password(self, email):
         """
-        Stuurt de gebruiker een email om zijn wachtwoorde te veranderen
+        Stuurt de gebruiker een email om zijn passworde te veranderen
 
         :param email: email van de gebruiker (string)
         :return: None
 
         precondities:
-            er is een gebruiker met een email waarmee de gegeven email overeenkomt
+            er is een gebruiker met een email waarmee het gegeven email overeenkomt
 
         postcondities:
-            gebruiker kan zijn wachtwoord veranderen
+            gebruiker kan zijn password veranderen
         """
         pass
 
@@ -69,7 +69,7 @@ class Reservatiesysteem:
     #     """
     #     pass
 
-    def aantal_plaatsen(self,vertoningid):
+    def free_Places(self,vertoningid):
         """
         Bepaalt het aantal vrije plaatsen voor een vertoning
         :param vertoningid: De vertonings id
@@ -80,7 +80,7 @@ class Reservatiesysteem:
             De vertoning bestaat
         """
 
-    def annuleer_reservatie(self, gebruiker_id, reservatie_id):
+    def cancel(self, gebruiker_id, reservatie_id):
         """
         Annuleert een reservatie van de gebruiker
 

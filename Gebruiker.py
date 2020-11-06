@@ -4,15 +4,15 @@ ADT voor gebruiker
 #Implementeren:Said
 #Testen:William
 class Gebruiker:
-    def __init__(self, firstname, lastname, email, password):
+    def __init__(self, firstname, surname, email, password):
         """
-        Maak een nieuwe gebruiker aan met een voornaam, een achternaam, een email en een wachtwoord
+        Maak een nieuwe gebruiker aan met een firstname, een surname, een email en een password
         Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
-        :param firstname: voornaam van de gebruiker (string)
-        :param lastname: achternaam van de gebruiker (string)
+        :param firstname: firstname van de gebruiker (string)
+        :param surname: surname van de gebruiker (string)
         :param email: e-mailadres van de gebruiker (string)
-        :param password: wachtwoord van de gebruiker (string)
+        :param password: password van de gebruiker (string)
 
         precondities:
             Email is bestaat en is niet in gebruik
@@ -37,9 +37,9 @@ class Gebruiker:
 
     def change_password(self, new_password):
         """
-        Verandert het wachtwoord van de gebruiker
+        Verandert het password van de gebruiker
 
-        :param new_password: Nieuw wachtwoord (string)
+        :param new_password: Nieuw password (string)
         :return: None
 
         precondities:
@@ -47,7 +47,7 @@ class Gebruiker:
             new_password != self.password
 
         postcondities:
-            wachtwoord van de gebruiker wordt verandert door het nieuw gegeven wachtwoord
+            password van de gebruiker wordt verandert door het nieuw gegeven password
         """
         pass
 

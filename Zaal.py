@@ -5,21 +5,21 @@ ADT voor zaal
 #Testen: William
 class Zaal:
 
-    def __init__(self, nummer, plaatsen):
+    def __init__(self, nummer, places):
         """
         Maakt een nieuwe zaal aan
 
         :param nummer: zaalnummer (int)
-        :param plaatsen: aantal plaatsen in de zaal (int)
+        :param places: aantal places in de zaal (int)
 
         precondities:
-            nummer en plaatsen > 0 en int
+            nummer en places > 0 en int
         postcondities:
             Object zaal is aangemaakt
         """
         pass
 
-    def verwijder(self):
+    def delete(self):
         """
         Verwijdert een zaal
         :return: None
