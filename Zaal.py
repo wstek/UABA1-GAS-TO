@@ -1,32 +1,32 @@
 """
 ADT voor zaal
 """
-
+#Implementatie: Said
+#Testen: William
 class Zaal:
 
     def __init__(self, nummer, plaatsen):
         """
-        Voegt een zaal toe aan de database
+        Maakt een nieuwe zaal aan
 
-        :param nummer: zaalnummer
-        :param plaatsen: aantal plaatsen in de zaal
+        :param nummer: zaalnummer (int)
+        :param plaatsen: aantal plaatsen in de zaal (int)
 
         precondities:
             nummer en plaatsen > 0 en int
         postcondities:
-            1 zaal meer in de database
+            Object zaal is aangemaakt
         """
         pass
 
     def verwijder(self):
         """
-        Verwijdert een zaal uit de databse
-
+        Verwijdert een zaal
         :return: None
 
         precondities:
             zaal bestaat in de database
         postcondities:
-            1 zaal minder in de database
+            Object zaal is verwijderd
         """
         pass

@@ -1,7 +1,8 @@
 """
 ADT voor gebruiker
 """
-
+#Implementeren:Said
+#Testen:William
 class Gebruiker:
     def __init__(self, firstname, lastname, email, password):
         """
@@ -22,7 +23,7 @@ class Gebruiker:
 
     def delete(self):
         """
-        Verwijdert de gebruiker uit de database
+        Verwijdert een gebruiker
 
         :return: None
 
@@ -51,26 +52,19 @@ class Gebruiker:
         pass
 
 
-# Dit is een functie, aub geen method van maken
-def gebruiker_id(email):
-    """
-    Geeft de gebruiker_id van de gebruiker
+# # Dit is een functie, aub geen method van maken
+# def gebruiker_id(email):
+#     """
+#     Geeft de gebruiker_id van de gebruiker
+#
+#     :param email: e-mailadres van de gebruiker (string)
+#     :return: gebruiker_id: id van de gebruiker (int in tuple)
+#
+#     precondities:
+#         email is een string
+#         email bestaat in de dictionary
+#     """
+#     pass
 
-    :param email: e-mailadres van de gebruiker (string)
-    :return: gebruiker_id: id van de gebruiker (int in tuple)
-
-    precondities:
-        email is een string
-        email bestaat in de dictionary
-    """
-    pass
 
 
-# Dit is een functie, aub geen method van maken
-def aantal_gebruikers():
-    """
-    Geeft het aantal gebruikers in de database
-
-    :return: aantal gebruikers (int in tuple)
-    """
-    pass

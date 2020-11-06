@@ -1,56 +1,35 @@
 """
 ADT voor reservatiesysteem
 """
-
+#Implementeren: Sam
+#Testen: Said
 class Reservatiesysteem:
     def __int__(self):
         pass
 
-    def maak_account(self, voornaam, achternaam, email, wachtwoord):
-        """
-        Maakt een account in de database aan voor de gebruiker
-        """
-        pass
-
-    def verwijder_account(self, gebruiker_id):
-        """
-        Verwijdert een account uit de database
-
-        :param gebruiker_id: id van de gebruiker (int)
-        :return: None
-
-        precondities:
-            gebruiker is aangemeld
-            gebruiker bestaat in de database
-        postcondities:
-            1 gebruiker minder in de database
-        """
-        pass
 
     def meld_aan(self, gebruiker_id, wachtwoord):
         """
-        Meldt de gebruiker aan
+        Meldt een gebruiker aan
 
-        Deze functie gebruikt de "gebruikers" dictionary van Gebruiker.py
         :param gebruiker_id: id van de gebruiker (int)
         :param wachtwoord: wachtwoord van de gebruiker (string)
         :return: None
 
         precondities:
-            gebruiker bestaat in de database
+            De gebruiker bestaat
         """
         pass
 
     def meld_af(self, gebruiker_id):
         """
-        Meldt de gebruiker af
+        Meldt een gebruiker af
 
-        Deze functie gebruikt de "gebruikers" dictionary van Gebruiker.py
         :param gebruiker_id: id van de gebruiker (int)
         :return: None
 
         precondities:
-            gebruiker is aangemeld
+            De gebruiker is aangemeld
         """
         pass
 
@@ -58,7 +37,6 @@ class Reservatiesysteem:
         """
         Stuurt de gebruiker een email om zijn wachtwoorde te veranderen
 
-        Deze functie gebruikt de "gebruikers" dictionary van Gebruiker.py
         :param email: email van de gebruiker (string)
         :return: None
 
@@ -71,29 +49,40 @@ class Reservatiesysteem:
         pass
 
 
-    def maak_reservatie(self, gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd):
+    # def maak_reservatie(self, gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd):
+    #     """
+    #     Maakt een reservatie voor de gebruiker
+    #
+    #     :param gebruiker_id: id van de gebruiker (int)
+    #     :param vertoning_id: id van de vertoning (int)
+    #     :param timestamp:
+    #     :param plaatsen_gereserveerd: aantal plaatsen gereserveerd (int)
+    #     :return: reservatie_id (int in tuple)
+    #
+    #     precondities:
+    #         gebruiker is aangemeld
+    #         vertoning_id bestaat
+    #         gebruiker_id en vertoning_id > 0 en int
+    #
+    #     postcondities:
+    #         1 reservatie meer in de database
+    #     """
+    #     pass
+
+    def aantal_plaatsen(self,vertoningid):
         """
-        Maakt een reservatie voor de gebruiker
+        Bepaalt het aantal vrije plaatsen voor een vertoning
+        :param vertoningid: De vertonings id
 
-        :param gebruiker_id: id van de gebruiker (int)
-        :param vertoning_id: id van de vertoning (int)
-        :param timestamp:
-        :param plaatsen_gereserveerd: aantal plaatsen gereserveerd (int)
-        :return: reservatie_id (int in tuple)
+        :return: Aantal vrije plaatsen voor een vertoning
 
-        precondities:
-            gebruiker is aangemeld
-            vertoning_id bestaat
-            gebruiker_id en vertoning_id > 0 en int
-
-        postcondities:
-            1 reservatie meer in de database
+        :preconditie:
+            De vertoning bestaat
         """
-        pass
 
     def annuleer_reservatie(self, gebruiker_id, reservatie_id):
         """
-        Annuleert een reservatie voor de gebruiker
+        Annuleert een reservatie van de gebruiker
 
         Deze functie gebruikt de "gebruikers" dictionary van Gebruiker.py
         Deze functie gebruikt de "reservaties" dictionary van Reservatie.py
@@ -107,20 +96,20 @@ class Reservatiesysteem:
             gebruiker_id en reservatie_id > 0 en int
 
         postcondities:
-            1 reservatie minder in de database
+            De reservatie is geannuleerd
         """
         pass
 
 # Dit is een functie, aub geen method van maken
-def verzoek_reservaties(self, gebruiker_id):
-    """
-    Geeft een tuple met alle reservaties van de gebruiker
-
-    :param gebruiker_id: id van de gebruiker (int)
-    :return: tuple met alle reservatie_id's van de gebruiker (int in tuple)
-
-    precondities:
-        gebruiker is aangemeld
-        gebruiker_id > 0 en int
-    """
-    pass
+# def verzoek_reservaties(self, gebruiker_id):
+#     """
+#     Geeft een tuple met alle reservaties van de gebruiker
+#
+#     :param gebruiker_id: id van de gebruiker (int)
+#     :return: tuple met alle reservatie_id's van de gebruiker (int in tuple)
+#
+#     precondities:
+#         gebruiker is aangemeld
+#         gebruiker_id > 0 en int
+#     """
+#     pass

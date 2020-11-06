@@ -1,49 +1,39 @@
 """
 ADT voor reservatie
 """
-
+#Implementeren: William
+#Testen: Stein
 class Reservatie:
     def __init__(self, gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd):
         """
-        Voegt een reservatie toe aan de database
+        Maak een nieuwe reservatie aan met een gebruikersid, een vertoningsid, een timestamp en het aantal gereserveerde
+        plaatsen
+        Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
-        :param gebruiker_id:
-        :param vertoning_id:
-        :param timestamp:
-        :param plaatsen_gereserveerd:
+        :param gebruiker_id: De id van de gebruiker, die een reservatie maakt (int)
+        :param vertoning_id: De id van de vertoning (int)
+        :param timestamp: Het tijdstip waarop de reservatie is gemaakt (int of string)
+        :param plaatsen_gereserveerd: Het aantal gereserveerde plaatsen (int)
 
         precondities:
             gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd > 0 en int
 
         postcondities:
-            1 reservatie meer in de database
+            Object reservatie is aangemaakt
         """
         pass
 
-    def verwijder(self):
+    def delete(self):
         """
-        Verwijdert een reservatie uit de database
+        Verwijdert een reservatie
 
         :return: None
 
         precondities:
             reservatie bestaat in de database
         postcondities:
-            1 reservatie minder in de database
+            Object reservatie is verwijderd
         """
-        # del reservaties[self.id]
         pass
 
 
-# Dit is een functie, aub geen method van maken
-def aantal_reservaties(vertoning_id=None):
-    """
-    Geeft aantal reservaties (als vertoning_id gegeven, dan geeft die aantal reservaties voor die vertoning)
-
-    :param vertoning_id: id van de vertoning (int)
-    :return: aantal reservaties (int in tuple)
-
-    precondities:
-        vertoning_id > 0 en int
-    """
-    pass
