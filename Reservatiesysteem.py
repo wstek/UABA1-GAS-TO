@@ -111,6 +111,7 @@ class Reservatiesysteem:
         """
         pass
 
+# Dit is een functie, aub geen method van maken
 def verzoek_reservaties(self, gebruiker_id):
     """
     Geeft een tuple met alle reservaties van de gebruiker

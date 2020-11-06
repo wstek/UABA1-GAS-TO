@@ -37,7 +37,8 @@ class Film:
         pass
 
 
-def aantal_filmen(self):
+# Dit is een functie, aub geen method van maken
+def aantal_filmen():
     """
     Geeft het aantal filmen in de database
 
