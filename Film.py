@@ -6,7 +6,8 @@ Dit is een test
 class Film:
     def __init__(self, film_titel, film_rating=0):
         """
-        Voegt een film toe aan de database
+        Maakt een nieuwe film aan met een id, een titel en een rating
+        Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
         :param film_titel: titel van de film (string)
         :param film_rating: rating van de film (float)
@@ -16,13 +17,13 @@ class Film:
             film_rating is een float
 
         postcondities:
-            1 film meer in de database
+            Object Film is aangemaakt
         """
         pass
 
-    def verwijder(self):
+    def delete(self):
         """
-        Verwijdert een film uit de database
+        Verwijdert het object
 
         :param film_id: titel van de film (string)
         :return: None
@@ -31,7 +32,7 @@ class Film:
             film_id > 0 en int
 
         postcondities:
-            1 element minder in de dictionary
+            Object Film is verwijderd
         """
         pass
 

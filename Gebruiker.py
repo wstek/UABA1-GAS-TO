@@ -3,23 +3,24 @@ ADT voor gebruiker
 """
 
 class Gebruiker:
-    def __init__(self, voornaam, achternaam, email, wachtwoord):
+    def __init__(self, firstname, lastname, email, password):
         """
-        Voegt een gebruiker toe aan de database
+        Maak een nieuwe gebruiker aan met een voornaam, een achternaam, een email en een wachtwoord
+        Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
-        :param voornaam: voornaam van de gebruiker (string)
-        :param achternaam: achternaam van de gebruiker (string)
+        :param firstname: voornaam van de gebruiker (string)
+        :param lastname: achternaam van de gebruiker (string)
         :param email: e-mailadres van de gebruiker (string)
-        :param wachtwoord: wachtwoord van de gebruiker (string)
+        :param password: wachtwoord van de gebruiker (string)
 
         precondities:
-            voornaam, achternaam, string, wachtwoord zijn strings
+            Email is bestaat en is niet in gebruik
         postcondities:
-            1 gebruiker meer in de database
+            Object Gebruiker is aangemaakt
         """
         pass
 
-    def verwijder(self):
+    def delete(self):
         """
         Verwijdert de gebruiker uit de database
 
@@ -29,21 +30,20 @@ class Gebruiker:
             gebruiker bestaat in de database
 
         postcondities:
-            1 gebruiker minder in de database
+            Object gebruiker is verwijderd
         """
         pass
 
-    def verander_wachtwoord(self, nieuw_wachtwoord):
+    def change_password(self, new_password):
         """
         Verandert het wachtwoord van de gebruiker
 
-        :param nieuw_wachtwoord: Nieuw wachtwoord (string)
+        :param new_password: Nieuw wachtwoord (string)
         :return: None
 
         precondities:
             gebruiker bestaat in de database
-            nieuw_wachtwoord is een string
-            nieuw_wacthwoord != self.wachtwoord
+            new_password != self.password
 
         postcondities:
             wachtwoord van de gebruiker wordt verandert door het nieuw gegeven wachtwoord
