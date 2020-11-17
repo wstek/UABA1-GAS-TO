@@ -1,6 +1,12 @@
 """
 ADT voor reservatiesysteem
 """
+from Film import *
+from Reservatie import *
+from Gebruiker import *
+from Zaal import *
+from Vertoning import *
+
 #Implementeren: Sam
 #Testen: Said
 class Reservatiesysteem:
@@ -14,12 +20,9 @@ class Reservatiesysteem:
 
         :param gebruiker_id: id van de gebruiker (int)
         :param password: password van de gebruiker (string)
-        :return: None
-
-        precondities:
-            De gebruiker bestaat
+        :return success: True bij success, False bij failure (bool)
+        precondities: De gebruiker bestaat
         """
-        pass
 
     def log_out(self, gebruiker_id):
         """
