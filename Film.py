@@ -20,7 +20,9 @@ class Film:
         postcondities:
             Object Film is aangemaakt
         """
-        pass
+        self.titel = film_titel
+        self.rating = film_rating
+        self.vertoningen = {}
 
     def delete(self):
         """

@@ -4,7 +4,7 @@ ADT voor reservatie
 #Implementeren: William
 #Testen: Stein
 class Reservatie:
-    def __init__(self, gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd):
+    def __init__(self, gebruiker_id, vertoning_id, plaatsen_gereserveerd, timestamp, datum):
         """
         Maak een nieuwe reservatie aan met een gebruikersid, een vertoningsid, een timestamp en het aantal gereserveerde
         plaatsen
@@ -21,7 +21,11 @@ class Reservatie:
         postcondities:
             Object reservatie is aangemaakt
         """
-        pass
+        self.gebruiker_id = gebruiker_id
+        self.vertoning_id = vertoning_id
+        self.plaatsen_gereserveerd = plaatsen_gereserveerd
+        self.timestamp = timestamp
+        self.datum = datum
 
     def delete(self):
         """

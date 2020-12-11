@@ -1,10 +1,13 @@
 """
 ADT voor vertoning
 """
+
+from Stack import Stack
+
 #Implementeren: Stein
 #Testen: Sam
 class Vertoning:
-    def __init__(self, zaalnummer, film_id, timeslot, datum_vertoning):
+    def __init__(self, zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen):
         """
         Maakt een nieuwe vertoning aan
         Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
@@ -20,7 +23,14 @@ class Vertoning:
         postcondities:
             Object vertoning is aangemaakt
         """
-        pass
+        self.zaalnummer = zaalnummer
+        self.film_id = film_id
+        self.timeslot = timeslot
+        self.datum_vertoning = datum_vertoning
+        self.aantal_vrije_plaatsen = aantal_vrije_plaatsen
+        self.verwachte_personen = Stack()
+        self.aanwezig = 0
+        self.gestart = False
 
     def delete(self):
         """

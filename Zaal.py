@@ -5,7 +5,7 @@ ADT voor zaal
 #Testen: William
 class Zaal:
 
-    def __init__(self, nummer, places):
+    def __init__(self, nummer, seats):
         """
         Maakt een nieuwe zaal aan
         Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
