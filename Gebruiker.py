@@ -22,35 +22,35 @@ class Gebruiker:
         self.surname = surname
         self.email = email
 
-    def delete(self):
-        """
-        Verwijdert een gebruiker
-
-        :return: None
-
-        precondities:
-            gebruiker bestaat in de database
-
-        postcondities:
-            Object gebruiker is verwijderd
-        """
-        pass
-
-    def change_password(self, new_password):
-        """
-        Verandert het password van de gebruiker
-
-        :param new_password: Nieuw password (string)
-        :return: None
-
-        precondities:
-            gebruiker bestaat in de database
-            new_password != self.password
-
-        postcondities:
-            password van de gebruiker wordt verandert door het nieuw gegeven password
-        """
-        pass
+    # def delete(self):
+    #     """
+    #     Verwijdert een gebruiker
+    #
+    #     :return: None
+    #
+    #     precondities:
+    #         gebruiker bestaat in de database
+    #
+    #     postcondities:
+    #         Object gebruiker is verwijderd
+    #     """
+    #     pass
+    #
+    # def change_password(self, new_password):
+    #     """
+    #     Verandert het password van de gebruiker
+    #
+    #     :param new_password: Nieuw password (string)
+    #     :return: None
+    #
+    #     precondities:
+    #         gebruiker bestaat in de database
+    #         new_password != self.password
+    #
+    #     postcondities:
+    #         password van de gebruiker wordt verandert door het nieuw gegeven password
+    #     """
+    #     pass
 
 
 # # Dit is een functie, aub geen method van maken

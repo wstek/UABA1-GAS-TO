@@ -27,17 +27,17 @@ class Reservatie:
         self.timestamp = timestamp
         self.datum = datum
 
-    def delete(self):
-        """
-        Verwijdert een reservatie
-
-        :return: None
-
-        precondities:
-            reservatie bestaat in de database
-        postcondities:
-            Object reservatie is verwijderd
-        """
-        pass
+    # def delete(self):
+    #     """
+    #     Verwijdert een reservatie
+    #
+    #     :return: None
+    #
+    #     precondities:
+    #         reservatie bestaat in de database
+    #     postcondities:
+    #         Object reservatie is verwijderd
+    #     """
+    #     pass
 
 

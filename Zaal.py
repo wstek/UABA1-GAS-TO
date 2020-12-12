@@ -18,16 +18,17 @@ class Zaal:
         postcondities:
             Object zaal is aangemaakt
         """
-        pass
+        self.nummer = nummer
+        self.seats = seats
 
-    def delete(self):
-        """
-        Verwijdert een zaal
-        :return: None
-
-        precondities:
-            zaal bestaat in de database
-        postcondities:
-            Object zaal is verwijderd
-        """
-        pass
+    # def delete(self):
+    #     """
+    #     Verwijdert een zaal
+    #     :return: None
+    #
+    #     precondities:
+    #         zaal bestaat in de database
+    #     postcondities:
+    #         Object zaal is verwijderd
+    #     """
+    #     pass

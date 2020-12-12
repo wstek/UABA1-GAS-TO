@@ -32,32 +32,32 @@ class Vertoning:
         self.aanwezig = 0
         self.gestart = False
 
-    def delete(self):
-        """
-        Verwijdert een vertoning
-
-        :return: None
-
-        precondities:
-            vertoning bestaat
-        postcondities:
-            vertoning is verwijderd
-        """
-        pass
-
-    def reserve_places(self, reserved_places):
-        """
-        Het aantal plaatsen dat gereserveerd wordt, wordt afgetrokken van het aantal vrije plaatsen
-        :param aantal_gereserveerde_plaatsen: Het aantal plaatsen dat gereserveerd wordt (int)
-
-        :return: Bool(True als plaatsen beschikbaar, anders False)
-
-        :preconditie:
-            De vertoning bestaat
-
-        :postconditie:
-            empty_places -= reserved_places
-        """
+    # def delete(self):
+    #     """
+    #     Verwijdert een vertoning
+    #
+    #     :return: None
+    #
+    #     precondities:
+    #         vertoning bestaat
+    #     postcondities:
+    #         vertoning is verwijderd
+    #     """
+    #     pass
+    #
+    # def reserve_places(self, reserved_places):
+    #     """
+    #     Het aantal plaatsen dat gereserveerd wordt, wordt afgetrokken van het aantal vrije plaatsen
+    #     :param aantal_gereserveerde_plaatsen: Het aantal plaatsen dat gereserveerd wordt (int)
+    #
+    #     :return: Bool(True als plaatsen beschikbaar, anders False)
+    #
+    #     :preconditie:
+    #         De vertoning bestaat
+    #
+    #     :postconditie:
+    #         empty_places -= reserved_places
+    #     """
 
 
 
