@@ -23,9 +23,14 @@ class Reservatiesysteem:
         self.reservaties = Queue()
         self.log = BSTTable() # key: datum, value: {zaal_id: [vstlg slot1, slot2, slot3, slot4]}
 
+        self.slot1 = "14:30"
+        self.slot2 = "17:00"
+        self.slot3 = "20:00"
+        self.slot4 = "22:30"
+
     def readScript(self, scriptname):
         """
-        Leest een tekstbestand in en verwerkt de script.
+        Leest en verwerkt het scriptbestand.
         :param scriptname: naam van het bestand
         :return: None
         """
@@ -51,6 +56,7 @@ class Reservatiesysteem:
 
             com_args = shlex.split(command)
 
+            # Initialisatie van de verschillende objecten
             if is_init:
                 if com_args[0] == "zaal":
                     nieuwe_zaal = Zaal(int(com_args[1]), int(com_args[2]))
@@ -65,22 +71,24 @@ class Reservatiesysteem:
                                                  com_args[4], int(com_args[6]))
                     self.vertoningen.tableInsert(createTreeItem(int(com_args[1]), nieuwe_vertoning))
 
-                    logding = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
-                    if logding is None:
+                    # Vertoningen worden in self.log gestoken om dat later makkelijker in een tabel te zetten
+                    # Maar ik weet niet of dat dit goed is
+                    log = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
+                    if log is None:
                         self.log.tableInsert(createTreeItem(
                             nieuwe_vertoning.datum_vertoning,
                             {nieuwe_vertoning.zaalnummer: [None, None, None, None]}
                         ))
                         self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
                     else:
-                        logding[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+                        log[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
 
                 if com_args[0] == "gebruiker":
                     nieuwe_gebruiker = Gebruiker(com_args[2], com_args[3], com_args[4])
                     self.gebruikers.tableInsert(createTreeItem(int(com_args[1]), nieuwe_gebruiker))
 
+            # Dit is voor reservaties en zo
             if is_start:
-                # onionsoup
                 datum = com_args[0]
                 timestamp = com_args[1]
 
@@ -98,7 +106,6 @@ class Reservatiesysteem:
                 if not self.reservaties.isEmpty():
                     self.updateReservaties()
 
-        # Sluit het bestand
         file.close()
 
     def updateReservaties(self):
@@ -110,6 +117,8 @@ class Reservatiesysteem:
             reservatie = self.reservaties.dequeue()[0]
 
             # Als er plaats is
+            # Verminder de aantal vrije plaatsen
+            # Voeg tickets toe aan de verwachte_personen stack (van het vertoningobject)
             if self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0].aantal_vrije_plaatsen > reservatie.plaatsen_gereserveerd:
                 print("Gereserveerd!")
                 self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0].aantal_vrije_plaatsen -= reservatie.plaatsen_gereserveerd
@@ -127,10 +136,13 @@ class Reservatiesysteem:
         :return: None
         """
         vertoning = self.vertoningen.tableRetrieve(vertoning_id)[0]
+
+        # Pop de tickets van de stack en incrementeer vertoning.aanwezig
         for aanwezige in range(aantal_aanwezigen):
             vertoning.verwachte_personen.pop()
             vertoning.aanwezig += 1
 
+        # Als iedereen aanwezig is dan start de film
         if vertoning.verwachte_personen.isEmpty():
             vertoning.gestart = True
             print(f'Iedereen is aangekomen en de film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint!')
@@ -138,15 +150,20 @@ class Reservatiesysteem:
     def createLog(self, timestamp, datum):
         """
         Creëert een log in een htmlbestand
-        :return:
+        :return: None
         """
-        # Voor elke film en datum een nieuwe rij in de tabel
+        # Voor elke zaal een nieuwe rij in de tabel met de film en de vertoningen op die dag
+        # Ik neem aan dat de log enkel voor 1 datum is
+
+
         # Maak een folder logs aan als die nog niet bestaat
         if not os.path.exists('logs'):
             os.makedirs('logs')
         # Maak een nieuwe html bestand aan of overschrijf het
         log_file = open(f"logs/log{self.log_count}.html", "w")
+        self.log_count += 1 # log_count is voor als we meerdere logbestanden willen maken in 1 run
 
+        # html stuff
         log_file.write("""
         <html><head><meta http-equiv="content-type" content="text/html; charset=windows-1252"><style>
 		table {border-collapse: collapse;}
@@ -154,7 +171,16 @@ class Reservatiesysteem:
 	    </style></head><body>
 	    """)
         log_file.write(f"<h1>Log op {datum} {timestamp}</h1>")
-        log_file.write("<table><thead><tr><td>Datum</td><td>Film</td><td>14:30</td><td>17:00</td><td>20:00</td><td>22:30</td></tr></thead>")
+        log_file.write(f"""
+        <table><thead><tr>
+        <td>Datum</td>
+        <td>Film</td>
+        <td>{self.slot1}</td>
+        <td>{self.slot2}</td>
+        <td>{self.slot3}</td>
+        <td>{self.slot4}</td>
+        </tr></thead>
+        """)
 
         for zaalnummer in self.log.tableRetrieve(datum)[0]:
             is_waiting = False
@@ -163,20 +189,25 @@ class Reservatiesysteem:
             for vertoning in self.log.tableRetrieve(datum)[0][zaalnummer]:
                 if vertoning is None:
                     log_file.write(f"<td></td>")
+
+                # F betekent dat de film gestart is gevolgd door het aantal mensen in de zaal
                 elif vertoning.gestart:
                     log_file.write(f"<td>F:{vertoning.aanwezig}</td>")
 
+                # W betekent dat de film wacht om gestart te worden gevolgd
+                # door het aantal mensen waarop nog gewacht wordt
                 elif not vertoning.gestart and not is_waiting:
                     log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
                     is_waiting = True
 
+                # G betekent gepland gevolgd door het aantal verkochte ticketten
                 elif not vertoning.gestart:
                     log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
 
 
-            log_file.write("</tr></tbody></table>")
+            log_file.write("</tr></tbody>")
 
-        log_file.write("</body></html>")
+        log_file.write("</table></body></html>")
 
         log_file.close()
 
@@ -283,7 +314,7 @@ class Reservatiesysteem:
 #         gebruiker_id > 0 en int
 #     """
 #     pass
-
+#     onion soup
 
 if __name__ == "__main__":
     sys = Reservatiesysteem()
