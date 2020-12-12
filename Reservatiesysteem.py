@@ -185,7 +185,11 @@ class Reservatiesysteem:
         for zaalnummer in self.log.tableRetrieve(datum)[0]:
             is_waiting = False
             film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
+
+            # Titel
             log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.filmen.tableRetrieve(film_id)[0].titel}")
+
+            # Rijen in de tabel
             for vertoning in self.log.tableRetrieve(datum)[0][zaalnummer]:
                 if vertoning is None:
                     log_file.write(f"<td></td>")
