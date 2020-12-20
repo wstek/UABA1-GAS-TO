@@ -11,8 +11,6 @@ from Queue_ import Queue
 import shlex
 import os
 
-#Implementeren: Sam
-#Testen: Said
 class Reservatiesysteem:
     def __init__(self):
         self.log_count = 0
