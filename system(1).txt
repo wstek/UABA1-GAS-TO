@@ -1,15 +1,15 @@
 # lijnen die beginnen met # worden genegeerd
 init
-zaal 1 200 
-film 3 "The Matrix" 0.95 
-# vertoning met id 9 in zaal 1 op slot 1  (14:30)
-# op datum 2020-10-10 voor film 3 (The Matrix)  
-# heeft nog 200 vrije plaatsen 
-vertoning 9 1 1 2020-10-10 3 200 
-vertoning 10 1 2 2020-10-10 3 200 
-vertoning 11 1 3 2020-10-10 3 200 
+zaal 1 200
+film 3 "The Matrix" 0.95
+# vertoning met id 9 in zaal 1 op slot 1 (14:30)
+# op datum 2020-10-10 voor film 3 (The Matrix)
+# heeft nog 200 vrije plaatsen
+vertoning 9 1 1 2020-10-10 3 200
+vertoning 10 1 2 2020-10-10 3 200
+vertoning 11 1 3 2020-10-10 3 200
 gebruiker 1 John Doe john@doe.com
-gebruiker 2 Tom Hofkens tom.hofkens@uantwerpen.be 
+gebruiker 2 Tom Hofkens tom.hofkens@uantwerpen.be
 
 # start het systeem op
 start
@@ -20,12 +20,12 @@ start
 2020-10-05 11:30 reserveer 2 9 8
 # user 2 bestelt 2 ticketten voor vertoning 10
 2020-10-05 11:30 reserveer 2 10 2
-# er komen 8 mensen vertoning 9 bekijken 
-2020-10-10 13:45 ticket 9 8 
-# er komen 2 mensen vertoning 9 bekijken 
-2020-10-10 14:35 ticket 9 2 
-# op dit moment is iedereen in de zaal  
-# en begint de film 
+# er komen 8 mensen vertoning 9 bekijken
+2020-10-10 13:45 ticket 9 8
+# er komen 2 mensen vertoning 9 bekijken
+2020-10-10 14:35 ticket 9 2
+# op dit moment is iedereen in de zaal
+# en begint de film
 
 # dit maakt een bestand log.txt
 # G betekent gepland gevolgd door het aantal verkochte ticketten

@@ -113,16 +113,17 @@ class Reservatiesysteem:
         """
         while not self.reservaties.isEmpty():
             reservatie = self.reservaties.dequeue()[0]
+            vertoning =  self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0]
 
             # Als er plaats is
             # Verminder de aantal vrije plaatsen
             # Voeg tickets toe aan de verwachte_personen stack (van het vertoningobject)
-            if self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0].aantal_vrije_plaatsen > reservatie.plaatsen_gereserveerd:
+            if vertoning.aantal_vrije_plaatsen > reservatie.plaatsen_gereserveerd:
                 print("Gereserveerd!")
-                self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0].aantal_vrije_plaatsen -= reservatie.plaatsen_gereserveerd
+                vertoning.aantal_vrije_plaatsen -= reservatie.plaatsen_gereserveerd
 
                 for plaats in range(reservatie.plaatsen_gereserveerd):
-                    self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0].verwachte_personen.push("ticket")
+                    vertoning.verwachte_personen.push("ticket")
             else:
                 print("Geen plaats meer!")
 
@@ -153,7 +154,6 @@ class Reservatiesysteem:
         # Voor elke zaal een nieuwe rij in de tabel met de film en de vertoningen op die dag
         # Ik neem aan dat de log enkel voor 1 datum is
 
-
         # Maak een folder logs aan als die nog niet bestaat
         if not os.path.exists('logs'):
             os.makedirs('logs')
@@ -164,10 +164,10 @@ class Reservatiesysteem:
         # html stuff
         log_file.write("""
         <html><head><meta http-equiv="content-type" content="text/html; charset=windows-1252"><style>
-		table {border-collapse: collapse;}
-		table, td, th {border: 1px solid black;}
-	    </style></head><body>
-	    """)
+        table {border-collapse: collapse;}
+        table, td, th {border: 1px solid black;}
+        </style></head><body>
+        """)
         log_file.write(f"<h1>Log op {datum} {timestamp}</h1>")
         log_file.write(f"""
         <table><thead><tr>
@@ -179,6 +179,11 @@ class Reservatiesysteem:
         <td>{self.slot4}</td>
         </tr></thead>
         """)
+
+        # Als er geen vertoningen zijn voor die datum
+        if self.log.tableRetrieve(datum)[0] is None:
+            print("Geen vertoningen voor die datum!")
+            return
 
         for zaalnummer in self.log.tableRetrieve(datum)[0]:
             is_waiting = False
@@ -205,7 +210,6 @@ class Reservatiesysteem:
                 # G betekent gepland gevolgd door het aantal verkochte ticketten
                 elif not vertoning.gestart:
                     log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
-
 
             log_file.write("</tr></tbody>")
 
@@ -321,5 +325,5 @@ class Reservatiesysteem:
 if __name__ == "__main__":
     sys = Reservatiesysteem()
     sys.readScript("system(1).txt")
-    print("Hello World!")
+    # print("Hello World!")
     # print(sys.gebruikers.tableRetrieve(2)[0].firstname)
