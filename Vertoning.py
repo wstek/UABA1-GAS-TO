@@ -10,15 +10,15 @@ class Vertoning:
     def __init__(self, zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen):
         """
         Maakt een nieuwe vertoning aan
-        Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
 
         :param zaalnummer: zaalnummer (int)
         :param film_id: id van de film (int)
         :param timeslot: timeslot (string)
         :param datum_vertoning: datum van de vertoning (int)
+        :param aantal_vrije_plaatsen: aantal vrije plaatsen van een vertoning (int)
 
         precondities
-            zaalnummer, film_id, datum_vertoning > 0 en int
+            zaalnummer, film_id, datum_vertoning, aantal_vrije_plaatsen  > 0 en int
             timeslot is een string
         postcondities:
             Object vertoning is aangemaakt

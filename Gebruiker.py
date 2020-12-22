@@ -6,8 +6,7 @@ ADT voor gebruiker
 class Gebruiker:
     def __init__(self, firstname, surname, email):
         """
-        Maak een nieuwe gebruiker aan met een firstname, een surname, een email en een password
-        Hiervoor gebruiken wij een id generator, die we er later gaan bijvoegen
+        Maak een nieuwe gebruiker aan met een firstname, een surname en een email
 
         :param firstname: firstname van de gebruiker (string)
         :param surname: surname van de gebruiker (string)

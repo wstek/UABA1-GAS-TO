@@ -11,15 +11,19 @@ from Queue_ import Queue
 import shlex
 import os
 
+
 class Reservatiesysteem:
     def __init__(self):
-        self.log_count = 0
+        """
+        initialiseerd het reservatiesysteem
+        """
+        self.log_count = 0  # ID van de logfile, zodat die steeds uniek is
         self.zalen = BSTTable()
         self.filmen = BSTTable()
         self.vertoningen = BSTTable()
         self.gebruikers = BSTTable()
         self.reservaties = Queue()
-        self.log = BSTTable() # key: datum, value: {zaal_id: [vstlg slot1, slot2, slot3, slot4]}
+        self.log = BSTTable()  # key: datum, value: {zaal_id: [vstlg slot1, slot2, slot3, slot4]}
 
         self.slot1 = "14:30"
         self.slot2 = "17:00"
@@ -29,8 +33,9 @@ class Reservatiesysteem:
     def readScript(self, scriptname):
         """
         Leest en verwerkt het scriptbestand.
-        :param scriptname: naam van het bestand
+        :param scriptname: relatief pad/naam van het bestand
         :return: None
+        precondition: script met scriptname bestaat
         """
         file = open(scriptname, "r")
         commands = file.read().split("\n")
@@ -77,7 +82,8 @@ class Reservatiesysteem:
                             nieuwe_vertoning.datum_vertoning,
                             {nieuwe_vertoning.zaalnummer: [None, None, None, None]}
                         ))
-                        self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+                        self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][
+                            nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
                     else:
                         log[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
 
@@ -113,7 +119,7 @@ class Reservatiesysteem:
         """
         while not self.reservaties.isEmpty():
             reservatie = self.reservaties.dequeue()[0]
-            vertoning =  self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0]
+            vertoning = self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0]
 
             # Als er plaats is
             # Verminder de aantal vrije plaatsen
@@ -125,7 +131,7 @@ class Reservatiesysteem:
                 for plaats in range(reservatie.plaatsen_gereserveerd):
                     vertoning.verwachte_personen.push("ticket")
             else:
-                print("Geen plaats meer!")
+                print("Onvolgoende Vrije Plaatsen!")
 
     def updateAanwezigen(self, vertoning_id, aantal_aanwezigen):
         """
@@ -144,12 +150,14 @@ class Reservatiesysteem:
         # Als iedereen aanwezig is dan start de film
         if vertoning.verwachte_personen.isEmpty():
             vertoning.gestart = True
-            print(f'Iedereen is aangekomen en de film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint!')
+            print(
+                f'Iedereen is aangekomen en de film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint!')
 
     def createLog(self, timestamp, datum):
         """
         Creëert een log in een htmlbestand
         :return: None
+        :postcondition: er is een html bestaand aangemaakt met de log
         """
         # Voor elke zaal een nieuwe rij in de tabel met de film en de vertoningen op die dag
         # Ik neem aan dat de log enkel voor 1 datum is
@@ -159,7 +167,7 @@ class Reservatiesysteem:
             os.makedirs('logs')
         # Maak een nieuwe html bestand aan of overschrijf het
         log_file = open(f"logs/log{self.log_count}.html", "w")
-        self.log_count += 1 # log_count is voor als we meerdere logbestanden willen maken in 1 run
+        self.log_count += 1  # log_count is voor als we meerdere logbestanden willen maken in 1 run
 
         # html stuff
         log_file.write("""
@@ -217,7 +225,6 @@ class Reservatiesysteem:
 
         log_file.close()
 
-
     # def log_in(self, gebruiker_id, password):
     #     """
     #     Meldt een gebruiker aan
@@ -254,7 +261,6 @@ class Reservatiesysteem:
     #         gebruiker kan zijn password veranderen
     #     """
     #     pass
-
 
     # def maak_reservatie(self, gebruiker_id, vertoning_id, timestamp, plaatsen_gereserveerd):
     #     """
@@ -306,6 +312,7 @@ class Reservatiesysteem:
     #         De reservatie is geannuleerd
     #     """
     #     pass
+
 
 # Dit is een functie, aub geen method van maken
 # def verzoek_reservaties(self, gebruiker_id):
