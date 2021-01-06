@@ -17,7 +17,7 @@ class Reservatiesysteem:
         """
         initialiseerd het reservatiesysteem
         """
-        self.log_count = 0  # ID van de logfile, zodat die steeds uniek is
+        self.log_count = 0  # ID van de logfile, zodat die steeds uniek is en er meerdere kunnen gemaakt worden in 1 run
         self.zalen = BSTTable()
         self.filmen = BSTTable()
         self.vertoningen = BSTTable()
@@ -57,6 +57,8 @@ class Reservatiesysteem:
                 is_init = False
                 continue
 
+            # shlex splits de string op spaties, bijhalve bij aanhalingstekens
+            # dit zorgt ervoor dat de naam van een film niet wordt gesplitst
             com_args = shlex.split(command)
 
             # Initialisatie van de verschillende objecten
