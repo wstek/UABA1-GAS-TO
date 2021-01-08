@@ -8,6 +8,9 @@ from datetime import datetime as d
 #Implementeren: Stein
 #Testen: Sam
 class Vertoning:
+
+    sloten = ["14:30", "17:00", "20:00", "22:30"]
+
     def __init__(self, zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen):
         """
         Maakt een nieuwe vertoning aan
@@ -46,8 +49,8 @@ class Vertoning:
         hourH = timestamp.split(':')[0]         #huidige uur
         minutesH =timestamp.split(':')[1]       #huidige minuten
 
-        hourV = self.timeslot.split(':')[0]     #vertoning uur
-        minutesV = self.timeslot.split(':')[1]  #vertoning minuten
+        hourV = Vertoning.sloten[self.timeslot - 1].split(':')[0]     #vertoning uur
+        minutesV = Vertoning.sloten[self.timeslot - 1].split(':')[1]  #vertoning minuten
         return hourH > hourV or (minutesH > minutesV and hourH >= hourV)    #indien het huidig uur groter is of het huidig aantal minuten en het uur is gelijk aan of groter dan de vertoning
 
 

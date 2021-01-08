@@ -25,11 +25,6 @@ class Reservatiesysteem:
         self.reservaties = Queue()
         self.log = BSTTable()  # key: datum, value: {zaal_id: [vstlg slot1, slot2, slot3, slot4]}
 
-        self.slot1 = "14:30"
-        self.slot2 = "17:00"
-        self.slot3 = "20:00"
-        self.slot4 = "22:30"
-
     def readScript(self, scriptname):
         """
         Leest en verwerkt het scriptbestand.
@@ -183,10 +178,10 @@ class Reservatiesysteem:
         <table><thead><tr>
         <td>Datum</td>
         <td>Film</td>
-        <td>{self.slot1}</td>
-        <td>{self.slot2}</td>
-        <td>{self.slot3}</td>
-        <td>{self.slot4}</td>
+        <td>{Vertoning.sloten[0]}</td>
+        <td>{Vertoning.sloten[1]}</td>
+        <td>{Vertoning.sloten[2]}</td>
+        <td>{Vertoning.sloten[3]}</td>
         </tr></thead>
         """)
 
