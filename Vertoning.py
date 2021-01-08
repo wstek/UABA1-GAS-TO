@@ -3,7 +3,8 @@ ADT voor vertoning
 """
 
 from Stack import Stack
-
+from datetime import datetime as d
+from datetime import datetime as d
 #Implementeren: Stein
 #Testen: Sam
 class Vertoning:
@@ -31,6 +32,26 @@ class Vertoning:
         self.verwachte_personen = Stack()
         self.aanwezig = 0
         self.gestart = False
+
+    def isOverTime(self, timestamp):
+        """
+        :param timestamp: huidig tijdstip (string)
+        :return true indien de huidige tijd groter is als de voorstellingstijd
+        precondities
+            timestamp string van formaar 00:00
+        postconditie
+            boolian die weergeeft of de voorstelling overtijd is
+
+        """
+        hourH = timestamp.split(':')[0]         #huidige uur
+        minutesH =timestamp.split(':')[1]       #huidige minuten
+
+        hourV = self.timeslot.split(':')[0]     #vertoning uur
+        minutesV = self.timeslot.split(':')[1]  #vertoning minuten
+        return hourH > hourV or (minutesH > minutesV and hourH >= hourV)    #indien het huidig uur groter is of het huidig aantal minuten en het uur is gelijk aan of groter dan de vertoning
+
+
+
 
     # def delete(self):
     #     """
