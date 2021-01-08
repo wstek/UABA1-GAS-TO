@@ -177,13 +177,10 @@ class Reservatiesysteem:
         log_file.write(f"""
         <table><thead><tr>
         <td>Datum</td>
-        <td>Film</td>
-        <td>{Vertoning.sloten[0]}</td>
-        <td>{Vertoning.sloten[1]}</td>
-        <td>{Vertoning.sloten[2]}</td>
-        <td>{Vertoning.sloten[3]}</td>
-        </tr></thead>
-        """)
+        <td>Film</td>""")
+        for i in Vertoning.sloten:
+            log_file.write(f"""<td>{i}</td>""")
+        log_file.write(f"""</tr></thead>""")
 
         # Als er geen vertoningen zijn voor die datum
         if self.log.tableRetrieve(datum)[0] is None:
@@ -208,11 +205,11 @@ class Reservatiesysteem:
 
                 # W betekent dat de film wacht om gestart te worden gevolgd
                 # door het aantal mensen waarop nog gewacht wordt
-                elif not vertoning.gestart and vertoning.isOverTime(timestamp):
+                elif vertoning.isOverTime(timestamp):
                     log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
 
                 # G betekent gepland gevolgd door het aantal verkochte ticketten
-                elif not vertoning.gestart:
+                else:
                     log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
 
             log_file.write("</tr></tbody>")
