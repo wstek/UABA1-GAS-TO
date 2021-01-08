@@ -3,6 +3,7 @@ TODO
 basis:
 
 - voorbeeldinputbestand moet correcte output geven (nakijken of dat die F W G in de tabel correct is)
+- Vertoning isOverTime implementeren
 - goed ontwerp van onze software:
     - aanpasbaar
     - object oriented
