@@ -23,7 +23,7 @@ start
 # er komen 8 mensen vertoning 9 bekijken
 2020-10-10 13:45 ticket 9 8
 # er komen 2 mensen vertoning 9 bekijken
-2020-10-10 14:35 ticket 9 2
+2020-10-10 14:35 ticket 9 1
 # op dit moment is iedereen in de zaal
 # en begint de film
 

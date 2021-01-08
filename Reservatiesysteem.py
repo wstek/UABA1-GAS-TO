@@ -213,9 +213,8 @@ class Reservatiesysteem:
 
                 # W betekent dat de film wacht om gestart te worden gevolgd
                 # door het aantal mensen waarop nog gewacht wordt
-                elif not vertoning.gestart and not is_waiting:
+                elif not vertoning.gestart and vertoning.isOverTime(timestamp):
                     log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
-                    is_waiting = True
 
                 # G betekent gepland gevolgd door het aantal verkochte ticketten
                 elif not vertoning.gestart:
