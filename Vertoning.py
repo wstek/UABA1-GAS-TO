@@ -17,13 +17,13 @@ class Vertoning:
 
         :param zaalnummer: zaalnummer (int)
         :param film_id: id van de film (int)
-        :param timeslot: timeslot (string)
+        :param timeslot: timeslot (int)
         :param datum_vertoning: datum van de vertoning (int)
         :param aantal_vrije_plaatsen: aantal vrije plaatsen van een vertoning (int)
 
         precondities
             zaalnummer, film_id, datum_vertoning, aantal_vrije_plaatsen  > 0 en int
-            timeslot is een string
+            timeslot < sloten.lenght
         postcondities:
             Object vertoning is aangemaakt
         """
@@ -47,7 +47,7 @@ class Vertoning:
 
         """
         hourH = timestamp.split(':')[0]         #huidige uur
-        minutesH =timestamp.split(':')[1]       #huidige minuten
+        minutesH = timestamp.split(':')[1]       #huidige minuten
 
         hourV = Vertoning.sloten[self.timeslot - 1].split(':')[0]     #vertoning uur
         minutesV = Vertoning.sloten[self.timeslot - 1].split(':')[1]  #vertoning minuten
