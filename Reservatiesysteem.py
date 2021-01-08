@@ -23,7 +23,7 @@ class Reservatiesysteem:
         self.vertoningen = BSTTable()
         self.gebruikers = BSTTable()
         self.reservaties = Queue()
-        self.log = BSTTable()  # key: datum, value: {zaal_id: [vstlg slot1, slot2, slot3, slot4]}
+        self.log = BSTTable()  # key: datum, value: {zaal_id: [vertoningen op pos slot]}
 
     def readScript(self, scriptname):
         """
@@ -75,10 +75,15 @@ class Reservatiesysteem:
                     # Maar ik weet niet of dat dit goed is
                     log = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
                     if log is None:
+                        temp_list = []
+                        for slot in Vertoning.sloten:
+                            temp_list.append(None)
+
                         self.log.tableInsert(createTreeItem(
                             nieuwe_vertoning.datum_vertoning,
-                            {nieuwe_vertoning.zaalnummer: [None, None, None, None]}
+                            {nieuwe_vertoning.zaalnummer: temp_list}
                         ))
+
                         self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][
                             nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
                     else:
