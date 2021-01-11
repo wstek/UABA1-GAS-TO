@@ -1,8 +1,8 @@
 """
 ADT voor gebruiker
 """
-#Implementeren:Said
-#Testen:William
+
+
 class Gebruiker:
     def __init__(self, firstname, surname, email):
         """

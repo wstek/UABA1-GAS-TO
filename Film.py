@@ -4,8 +4,6 @@ Dit is een test
 """
 
 
-# Implementeren: Stein
-# Testen: Sam
 class Film:
     def __init__(self, film_titel, film_rating=0):
         """

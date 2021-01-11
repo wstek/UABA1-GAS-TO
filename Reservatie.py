@@ -3,8 +3,6 @@ ADT voor reservatie
 """
 
 
-# Implementeren: William
-# Testen: Stein
 class Reservatie:
     def __init__(self, gebruiker_id, vertoning_id, plaatsen_gereserveerd, timestamp, datum):
         """

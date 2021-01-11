@@ -1,8 +1,8 @@
 """
 ADT voor zaal
 """
-#Implementatie: Said
-#Testen: William
+
+
 class Zaal:
 
     def __init__(self, nummer, seats):

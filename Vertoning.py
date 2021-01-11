@@ -5,8 +5,6 @@ ADT voor vertoning
 from BaseStructures.Stack import Stack
 
 
-#Implementeren: Stein
-#Testen: Sam
 class Vertoning:
 
     sloten = ["14:30", "17:00", "20:00", "22:30"]
