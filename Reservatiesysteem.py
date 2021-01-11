@@ -1,6 +1,20 @@
 """
+Made By: William, Said, Stein, Sam
+Date: 14/01/2020
 ADT voor reservatiesysteem
+
+Mogelijke Structuren:
+-   DubbelgelinkteCirulaireKettingTable     - alle 4
+-   BSTTable                                - alle 4
+-   RedBlackTreeTable                       - Sam & William
+-   ######################################################################234 van said
+-   ######################################################################stein
+
+Specifieke structuren:
+-   Stack (voor tickets in vertoning)       - alle 4
+-   Queue (reservaties)                     - alle 4
 """
+
 # add (name)Structures. om een andere structuur te gebruiken example: "from SamsStructures.BSTTable import *"
 from Film import *
 from Reservatie import *
@@ -8,7 +22,7 @@ from Gebruiker import *
 from Zaal import *
 from Vertoning import *
 from BSTTable import *
-from Queue_ import Queue
+from Queue import Queue
 import shlex
 import os
 
