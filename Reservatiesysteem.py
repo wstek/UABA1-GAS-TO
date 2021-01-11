@@ -4,18 +4,19 @@ Date: 14/01/2020
 ADT voor reservatiesysteem
 
 Mogelijke Structuren:
--   DubbelgelinkteCirulaireKettingTable     - alle 4
 -   BSTTable                                - alle 4
 -   RedBlackTreeTable                       - Sam & William
 -   TwoThreeFourTreeTable                   - Said & Stein
--   ######################################################################stein
 
 Specifieke structuren:
+-   DubbelgelinkteCirulaireKettingTable     - alle 4
 -   Stack (voor tickets in vertoning)       - alle 4
 -   Queue (reservaties)                     - alle 4
 """
 
 # add (name+s)Structures. om een andere structuur te gebruiken example: "from SamsStructures.BSTTable import *"
+import shutil
+
 from Film import *
 from Reservatie import *
 from Gebruiker import *
@@ -33,6 +34,7 @@ class Reservatiesysteem:
         initialiseerd het reservatiesysteem
         """
         self.log_count = 0  # ID van de logfile, zodat die steeds uniek is en er meerdere kunnen gemaakt worden in 1 run
+        self.logs_folder = "logs"  # Naam van de folder die de logbestanden bevat
         self.zalen = BSTTable()
         self.filmen = BSTTable()
         self.vertoningen = BSTTable()
@@ -74,41 +76,19 @@ class Reservatiesysteem:
             # Initialisatie van de verschillende objecten
             if is_init:
                 if com_args[0] == "zaal":
-                    nieuwe_zaal = Zaal(int(com_args[1]), int(com_args[2]))
-                    self.zalen.tableInsert(createTreeItem(int(com_args[1]), nieuwe_zaal))
+                    self.addZaal(int(com_args[1]), int(com_args[2]))
 
                 if com_args[0] == "film":
-                    nieuwe_film = Film(com_args[2], com_args[3])
-                    self.filmen.tableInsert(createTreeItem(int(com_args[1]), nieuwe_film))
+                    self.addFilm(int(com_args[1]), com_args[2], com_args[3])
 
                 if com_args[0] == "vertoning":
-                    nieuwe_vertoning = Vertoning(int(com_args[2]), int(com_args[5]), int(com_args[3]),
-                                                 com_args[4], int(com_args[6]))
-                    self.vertoningen.tableInsert(createTreeItem(int(com_args[1]), nieuwe_vertoning))
-
-                    # Vertoningen worden in self.log gestoken om dat later makkelijker in een tabel te zetten
-                    # Maar ik weet niet of dat dit goed is
-                    log = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
-                    if log is None:
-                        temp_list = []
-                        for slot in Vertoning.sloten:
-                            temp_list.append(None)
-
-                        self.log.tableInsert(createTreeItem(
-                            nieuwe_vertoning.datum_vertoning,
-                            {nieuwe_vertoning.zaalnummer: temp_list}
-                        ))
-
-                        self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][
-                            nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
-                    else:
-                        log[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+                    self.addVertoning(int(com_args[1]), int(com_args[2]), int(com_args[5]), int(com_args[3]),
+                                      com_args[4], int(com_args[6]))
 
                 if com_args[0] == "gebruiker":
-                    nieuwe_gebruiker = Gebruiker(com_args[2], com_args[3], com_args[4])
-                    self.gebruikers.tableInsert(createTreeItem(int(com_args[1]), nieuwe_gebruiker))
+                    self.addGebruiker(int(com_args[1]), com_args[2], com_args[3], com_args[4])
 
-            # Dit is voor reservaties en zo
+            # reservaties, tickets, log
             if is_start:
                 datum = com_args[0]
                 timestamp = com_args[1]
@@ -129,9 +109,71 @@ class Reservatiesysteem:
 
         file.close()
 
+    def addZaal(self, nummer, seats):
+        """
+        Voegt een zaal toe aan het systeem.
+        :return: None
+        """
+        nieuwe_zaal = Zaal(nummer, seats)
+        self.zalen.tableInsert(createTreeItem(nummer, nieuwe_zaal))
+
+    def addFilm(self, film_id, film_titel, film_rating):
+        """
+        Voegt een film toe aan het systeem.
+        :return: None
+        """
+        nieuwe_film = Film(film_titel, film_rating)
+        self.filmen.tableInsert(createTreeItem(film_id, nieuwe_film))
+
+    def addVertoning(self, vertoning_id, zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen):
+        """
+        Voegt een vertoning toe aan het systeem.
+        :return: None
+        """
+        nieuwe_vertoning = Vertoning(zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen)
+        self.vertoningen.tableInsert(createTreeItem(vertoning_id, nieuwe_vertoning))
+
+        # Vertoningen worden in self.log gestoken om dat later makkelijker in een tabel te zetten
+        log_datum = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
+
+        # als de log op die datum leeg is
+        # voeg dan een dictionary met zaal_id en een lijst met None #sloten keer
+        if log_datum is None:
+            temp_list = []
+            for slot in Vertoning.sloten:
+                temp_list.append(None)
+
+            self.log.tableInsert(createTreeItem(
+                nieuwe_vertoning.datum_vertoning,
+                {nieuwe_vertoning.zaalnummer: temp_list}
+            ))
+
+            # insert de vertoning in de lijst
+            self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][
+                nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+        else:
+            # insert de vertoning in de lijst
+            log_datum[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+
+    def addGebruiker(self, gebruiker_id, firstname, surname, email):
+        """
+        Voegt een gebruiker toe aan het systeem.
+        :return: None
+        """
+        nieuwe_gebruiker = Gebruiker(firstname, surname, email)
+        self.gebruikers.tableInsert(createTreeItem(gebruiker_id, nieuwe_gebruiker))
+
+    def addReservatie(self, gebruiker_id, vertoning_id, plaatsen_gereserveerd, timestamp, datum):
+        """
+        Voegt een reservatie toe aan het systeem.
+        :return: None
+        """
+        nieuwe_reservatie = Reservatie(gebruiker_id, vertoning_id, plaatsen_gereserveerd, timestamp, datum)
+        self.reservaties.enqueue(nieuwe_reservatie)
+
     def updateReservaties(self):
         """
-        Verwerkt elke reservatie in de queue
+        Verwerkt elke reservatie in de queue.
         :return: None
         """
         while not self.reservaties.isEmpty():
@@ -139,20 +181,20 @@ class Reservatiesysteem:
             vertoning = self.vertoningen.tableRetrieve(reservatie.vertoning_id)[0]
 
             # Als er plaats is
-            # Verminder de aantal vrije plaatsen
+            # Verminder het aantal vrije plaatsen
             # Voeg tickets toe aan de verwachte_personen stack (van het vertoningobject)
             if vertoning.aantal_vrije_plaatsen > reservatie.plaatsen_gereserveerd:
-                print("Gereserveerd!")
+                print("gereserveerd")
                 vertoning.aantal_vrije_plaatsen -= reservatie.plaatsen_gereserveerd
 
                 for plaats in range(reservatie.plaatsen_gereserveerd):
                     vertoning.verwachte_personen.push("ticket")
             else:
-                print("Onvoldoende Vrije Plaatsen!")
+                print("geen vrije plaatsen meer")
 
     def updateAanwezigen(self, vertoning_id, aantal_aanwezigen):
         """
-        Verwerkt de personen die aangekomen zijn om de film te bekijken
+        Verwerkt de personen die aangekomen zijn om de film te bekijken.
         :param vertoning_id: id van de vertoning
         :param aantal_aanwezigen: aantal personen die aankomen
         :return: None
@@ -167,55 +209,62 @@ class Reservatiesysteem:
         # Als iedereen aanwezig is dan start de film
         if vertoning.verwachte_personen.isEmpty():
             vertoning.gestart = True
-            print(
-                f'Iedereen is aangekomen en de film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint!')
+            print(f'film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint')
 
     def createLog(self, timestamp, datum):
         """
-        Creëert een log in een htmlbestand
+        Creëert een log in een htmlbestand.
+        Een tabel met voor elke zaal een nieuwe rij met de film en de vertoningen op die dag.
         :return: None
         :postcondition: er is een html bestaand aangemaakt met de log
         """
-        # Voor elke zaal een nieuwe rij in de tabel met de film en de vertoningen op die dag
-        # Ik neem aan dat de log enkel voor 1 datum is
-
         # Maak een folder logs aan als die nog niet bestaat
         if not os.path.exists('logs'):
             os.makedirs('logs')
+
         # Maak een nieuwe html bestand aan of overschrijf het
         log_file = open(f"logs/log{self.log_count}.html", "w")
         self.log_count += 1  # log_count is voor als we meerdere logbestanden willen maken in 1 run
 
-        # html stuff
+        # html basis
         log_file.write("""
         <html><head><meta http-equiv="content-type" content="text/html; charset=windows-1252"><style>
         table {border-collapse: collapse;}
         table, td, th {border: 1px solid black;}
         </style></head><body>
         """)
+
+        # titel
         log_file.write(f"<h1>Log op {datum} {timestamp}</h1>")
+
+        # head van de tabel
+        # de eerste twee kolommen: datum en film
         log_file.write(f"""
         <table><thead><tr>
         <td>Datum</td>
-        <td>Film</td>""")
+        <td>Film</td>
+        """)
+
+        # de andere kolommen
+        # hangt af van het aantal sloten in Vertoning.py
         for i in Vertoning.sloten:
-            log_file.write(f"""<td>{i}</td>""")
-        log_file.write(f"""</tr></thead>""")
+            log_file.write(f"<td>{i}</td>")
+        log_file.write(f"</tr></thead>")
 
         # Als er geen vertoningen zijn voor die datum
         if self.log.tableRetrieve(datum)[0] is None:
-            print("Geen vertoningen voor die datum!")
+            print(f"geen vertoningen voor {datum}")
             return
 
         for zaalnummer in self.log.tableRetrieve(datum)[0]:
-            is_waiting = False
             film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
 
             # Titel
             log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.filmen.tableRetrieve(film_id)[0].titel}")
 
             # Rijen in de tabel
-            for vertoning in self.log.tableRetrieve(datum)[0][zaalnummer]:
+            vertoningen = self.log.tableRetrieve(datum)[0][zaalnummer]
+            for vertoning in vertoningen:
                 if vertoning is None:
                     log_file.write(f"<td></td>")
 
@@ -238,6 +287,34 @@ class Reservatiesysteem:
 
         log_file.close()
 
+    def reset(self):
+        """
+        Reset het reservatiesysteem.
+        :return: None
+        """
+        # verwijder logs
+        for filename in os.listdir(self.logs_folder):
+            file_path = os.path.join(self.logs_folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Kon het bestand %s niet verwijderen. Reden: %s' % (file_path, e))
+
+        # zet log_count terug op nul
+        self.log_count = 0
+
+        # clear alle datastructuren
+        self.zalen = BSTTable()
+        self.filmen = BSTTable()
+        self.vertoningen = BSTTable()
+        self.gebruikers = BSTTable()
+        self.reservaties = Queue()
+        self.log = BSTTable()
+
+
 if __name__ == "__main__":
     sys = Reservatiesysteem()
-    sys.readScript("system(1).txt")
+    sys.readScript("test_script.txt")
