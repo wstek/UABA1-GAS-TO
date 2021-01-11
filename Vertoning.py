@@ -47,6 +47,7 @@ class Vertoning:
         hourH = timestamp.split(':')[0]         #huidige uur
         minutesH = timestamp.split(':')[1]       #huidige minuten
 
-        hourV = Vertoning.sloten[self.timeslot - 1].split(':')[0]     #vertoning uur
-        minutesV = Vertoning.sloten[self.timeslot - 1].split(':')[1]  #vertoning minuten
-        return hourH > hourV or (minutesH > minutesV and hourH >= hourV)    #indien het huidig uur groter is of het huidig aantal minuten en het uur is gelijk aan of groter dan de vertoning
+        hourV = Vertoning.sloten[self.timeslot - 1].split(':')[0]     # vertoning uur
+        minutesV = Vertoning.sloten[self.timeslot - 1].split(':')[1]  # vertoning minuten
+        # indien het huidig uur groter is of het huidig aantal minuten en het uur is gelijk aan of groter dan de vertoning
+        return hourH > hourV or (minutesH > minutesV and hourH >= hourV)

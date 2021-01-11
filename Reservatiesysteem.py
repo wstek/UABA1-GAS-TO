@@ -241,5 +241,3 @@ class Reservatiesysteem:
 if __name__ == "__main__":
     sys = Reservatiesysteem()
     sys.readScript("system(1).txt")
-    # print("Hello World!")
-    # print(sys.gebruikers.tableRetrieve(2)[0].firstname)
