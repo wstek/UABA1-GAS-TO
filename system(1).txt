@@ -31,4 +31,4 @@ start
 # G betekent gepland gevolgd door het aantal verkochte ticketten
 # F betekent dat de film gestart is gevolgd door het aantal mensen in de zaal
 # W betekent dat de film wacht om gestart te worden gevolgd door het aantal mensen waarop nog gewacht wordt
-2020-10-10 18:00 log
+2020-10-10 14:00 log

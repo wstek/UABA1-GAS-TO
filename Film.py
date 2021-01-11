@@ -23,27 +23,3 @@ class Film:
         self.titel = film_titel
         self.rating = film_rating
         self.vertoningen = {}
-
-    # def delete(self):
-    #     """
-    #     Verwijdert het object
-    #
-    #     :param film_id: titel van de film (string)
-    #     :return: None
-    #
-    #     precondities:
-    #         film_id > 0 en int
-    #
-    #     postcondities:
-    #         Object Film is verwijderd
-    #     """
-    #     pass
-
-# # Dit is een functie, aub geen method van maken
-# def aantal_filmen():
-#     """
-#     Geeft het aantal filmen in de database
-#
-#     :return: aantal filmen in de database (int in tuple)
-#     """
-#     pass
