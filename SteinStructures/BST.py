@@ -3,7 +3,7 @@ class BST:
         self.root = None
 
     def destroySearchTree(self):
-        """
+        """ok
         functie die de boom zal verwijderen
         :parameter
         :return succes(bool)
@@ -12,7 +12,7 @@ class BST:
         return True
 
     def isEmpty(self):
-        """
+        """ok
         functie die true zal geven als de boom leeg is
         :parameter
         :return succes(bool)
@@ -21,8 +21,8 @@ class BST:
             return True
         return self.root.leftchild == None and self.root.rightchild == None
 
-    def searchTreeInsert(self, newItem, xnode=None):
-        """
+    def searchTreeInsert(self, newItem, xnode=None, value1 = None):
+        """ok
         functie voor het toevoegen van een kind
         :parameter value: een value het die toegevoegd moet worden
         :return (bool):
@@ -31,22 +31,22 @@ class BST:
         """
         if xnode == None:
             if (self.root == None):
-                self.root = node(newItem, None, None)
+                self.root = node(newItem, None, None, value1)
                 return True
             xnode = self.root
 
         if xnode.value > newItem:
             if (xnode.leftchild == None):
-                xnode.leftchild = node(newItem, None, None)
+                xnode.leftchild = node(newItem, None, None, value1)
                 return True
             else:
-                return self.searchTreeInsert(newItem, xnode.leftchild)
+                return self.searchTreeInsert(newItem, xnode.leftchild, value1)
         else:
             if (xnode.rightchild == None):
-                xnode.rightchild = node(newItem, None, None)
+                xnode.rightchild = node(newItem, None, None, value1)
                 return True
             else:
-                return self.searchTreeInsert(newItem, xnode.rightchild)
+                return self.searchTreeInsert(newItem, xnode.rightchild, value1)
 
     def preorderTraverse(self, value, xnode):
         """
@@ -118,7 +118,7 @@ class BST:
             return {"root":xnode.value}
 
     def searchTreeDelete(self, value):
-        """
+        """ok
         functie voor een node te verwijderen bij de value
         :parameter value(string)
         :return (bool): True als het gelukt is
@@ -137,8 +137,8 @@ class BST:
 
         return True
 
-    def searchTreeRetrieve(self, value, xnode = None, asNode = False):
-        """
+    def searchTreeRetrieve(self, value, xnode = None):
+        """ok
         functie voor de knoop te vinden van een bepaalde knoop
         :parameter value(string)
         :return (list): geeft het knoop object met als value de meegegeven value
@@ -146,24 +146,25 @@ class BST:
         if xnode == None:
             xnode = self.root
 
+        if xnode == None:
+            return (None, True)
+
         if xnode.value == value:
-            if asNode:
-                return xnode
-            return (xnode.value, True)
+            return (xnode.value1, True)
         if xnode.value > value:
             if(xnode.leftchild != None):
-                return self.searchTreeRetrieve(value, xnode.leftchild, asNode)
+                return self.searchTreeRetrieve(value, xnode.leftchild)
             else:
-                return (False,False)
+                return (None,False)
         else:
             if (xnode.rightchild != None):
-                return self.searchTreeRetrieve(value, xnode.rightchild, asNode)
+                return self.searchTreeRetrieve(value, xnode.rightchild)
             else:
-                return (False,False)
+                return (None,False)
 
 
     def child_count(self, xnode=None):
-        """
+        """ok
         functie voor het aantal knopen in een boom te achterhalen
         :parameter
         :return (int): het aantal knopen in de boom
@@ -240,10 +241,11 @@ class BST:
                 self.load(dict['children'][1], True)
 
 class node:
-    def __init__(self, value, leftchild, rightchild):
+    def __init__(self, value, leftchild, rightchild, value1):
         self.leftchild = leftchild
         self.rightchild = leftchild
         self.value = value
+        self.value1 = value1
 
-def createTreeItem(key,val):
-    return key;
+def createTreeItem(key, val):
+    return key, val

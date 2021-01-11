@@ -15,10 +15,12 @@ class BSTTable:
         return self.bst.child_count()
 
     def tableInsert(self, item):
-        return self.bst.searchTreeInsert(item)
+        value = item[0]
+        value1 = item[1]
+        return self.bst.searchTreeInsert(value, None, value1)
 
     def tableDelete(self, item):
         return self.bst.searchTreeDelete(item)
 
     def tableRetrieve(self, value):
-        return self.bst.searchTreeRetrieve()
+        return self.bst.searchTreeRetrieve(value)
