@@ -36,7 +36,7 @@ class Queue:
         """
     def enqueue(self, item):
         self.queue.insert(0,item)
-        pass
+        return True
 
     """
     Verwijderd het eerst toegevoegde element van de queue
@@ -50,7 +50,7 @@ class Queue:
     def dequeue(self):
         waarde = self.queue[len(self.queue) - 1]
         self.queue.remove(waarde)
-        return (True, waarde)
+        return (waarde,True)
 
     """
     Zal de waarde van het eerst toegevoegde item in de variable stackTop plaatsen 
