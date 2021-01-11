@@ -67,7 +67,7 @@ class Reservatiesysteem:
                 is_init = False
                 continue
 
-            # shlex splits de string op spaties, bijhalve bij aanhalingstekens
+            # shlex splits de string op spaties, behalve bij aanhalingstekens
             # dit zorgt ervoor dat de naam van een film niet wordt gesplitst
             com_args = shlex.split(command)
 
@@ -148,7 +148,7 @@ class Reservatiesysteem:
                 for plaats in range(reservatie.plaatsen_gereserveerd):
                     vertoning.verwachte_personen.push("ticket")
             else:
-                print("Onvolgoende Vrije Plaatsen!")
+                print("Onvoldoende Vrije Plaatsen!")
 
     def updateAanwezigen(self, vertoning_id, aantal_aanwezigen):
         """
