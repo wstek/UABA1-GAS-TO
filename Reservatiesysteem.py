@@ -1,6 +1,7 @@
 """
 ADT voor reservatiesysteem
 """
+# add (name)Structures. om een andere structuur te gebruiken example: "from SamsStructures.BSTTable import *"
 from Film import *
 from Reservatie import *
 from Gebruiker import *
