@@ -1,7 +1,7 @@
 from DubbelgelinkteCirulaireKetting import *
 
 
-class LinkedChainTable():
+class DubbelgelinkteCirulaireKettingTable():
     def __init__(self):
         self.theChain = LinkedChain()
 
