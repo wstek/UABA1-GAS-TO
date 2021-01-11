@@ -228,7 +228,7 @@ class Reservatiesysteem:
                 elif vertoning.isOverTime(timestamp):
                     log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
 
-                # G betekent gepland gevolgd door het aantal verkochte ticketten
+                # G betekent gepland, gevolgd door het aantal verkochte ticketten
                 else:
                     log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
 
