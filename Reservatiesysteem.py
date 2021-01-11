@@ -15,8 +15,6 @@ Specifieke structuren:
 """
 
 # add (name+s)Structures. om een andere structuur te gebruiken example: "from SamsStructures.BSTTable import *"
-import shutil
-
 from Film import *
 from Reservatie import *
 from Gebruiker import *
@@ -298,8 +296,6 @@ class Reservatiesysteem:
             try:
                 if os.path.isfile(file_path) or os.path.islink(file_path):
                     os.unlink(file_path)
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
             except Exception as e:
                 print('Kon het bestand %s niet verwijderen. Reden: %s' % (file_path, e))
 
