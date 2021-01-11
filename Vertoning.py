@@ -2,9 +2,9 @@
 ADT voor vertoning
 """
 
-from Stack import Stack
-from datetime import datetime as d
-from datetime import datetime as d
+from BaseStructures.Stack import Stack
+
+
 #Implementeren: Stein
 #Testen: Sam
 class Vertoning:

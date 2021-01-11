@@ -7,7 +7,7 @@ Mogelijke Structuren:
 -   DubbelgelinkteCirulaireKettingTable     - alle 4
 -   BSTTable                                - alle 4
 -   RedBlackTreeTable                       - Sam & William
--   ######################################################################234 van said
+-   TwoThreeFourTreeTable                   - Said
 -   ######################################################################stein
 
 Specifieke structuren:
@@ -21,8 +21,8 @@ from Reservatie import *
 from Gebruiker import *
 from Zaal import *
 from Vertoning import *
-from BSTTable import *
-from Queue import Queue
+from BaseStructures.BSTTable import *
+from BaseStructures.Queue import Queue
 import shlex
 import os
 
