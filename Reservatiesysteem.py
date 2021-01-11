@@ -7,7 +7,7 @@ Mogelijke Structuren:
 -   DubbelgelinkteCirulaireKettingTable     - alle 4
 -   BSTTable                                - alle 4
 -   RedBlackTreeTable                       - Sam & William
--   TwoThreeFourTreeTable                   - Said
+-   TwoThreeFourTreeTable                   - Said & Stein
 -   ######################################################################stein
 
 Specifieke structuren:
