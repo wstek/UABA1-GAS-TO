@@ -31,27 +31,31 @@ class Reservatiesysteem:
         """
         initialiseerd het reservatiesysteem
         """
-        self.log_count = 0  # ID van de logfile, zodat die steeds uniek is en er meerdere kunnen gemaakt worden in 1 run
-        self.logs_folder = "logs"  # Naam van de folder die de logbestanden bevat
         self.zalen = BSTTable()
         self.filmen = BSTTable()
         self.vertoningen = BSTTable()
         self.gebruikers = BSTTable()
         self.reservaties = Queue()
+
         self.log = BSTTable()  # key: datum, value: {zaal_id: [vertoningen op pos slot]}
+        self.log_count = 0  # ID van de logfile, zodat die steeds uniek is en er meerdere kunnen gemaakt worden in 1 run
+        self.logs_folder = "logs"  # Naam van de folder die de logbestanden bevat
+        self.clearLogFiles()
 
     def readScript(self, scriptname):
         """
         Leest en verwerkt het scriptbestand.
         :param scriptname: relatief pad/naam van het bestand
-        :return: None
+        :return: succes
         precondition: script met scriptname bestaat
+        todo error handling en uitbreiding vraag 2
         """
         file = open(scriptname, "r")
         commands = file.read().split("\n")
 
         is_init = False
         is_start = False
+        logs = []
 
         for command in commands:
             if command == "" or command[0] == "#":
@@ -100,12 +104,15 @@ class Reservatiesysteem:
                     self.updateAanwezigen(int(com_args[3]), int(com_args[4]))
 
                 if com_args[2] == "log":
-                    self.createLog(timestamp, datum)
+                    filepath = self.createLog(timestamp, datum)
+                    if filepath:
+                        logs.append(filepath[0])
 
                 if not self.reservaties.isEmpty():
                     self.updateReservaties()
 
         file.close()
+        return logs, True
 
     def addZaal(self, nummer, seats):
         """
@@ -213,7 +220,7 @@ class Reservatiesysteem:
         """
         Creëert een log in een htmlbestand.
         Een tabel met voor elke zaal een nieuwe rij met de film en de vertoningen op die dag.
-        :return: None
+        :return: filename, Succes
         :postcondition: er is een html bestaand aangemaakt met de log
         """
         # Maak een folder logs aan als die nog niet bestaat
@@ -222,6 +229,7 @@ class Reservatiesysteem:
 
         # Maak een nieuwe html bestand aan of overschrijf het
         log_file = open(f"logs/log{self.log_count}.html", "w")
+        file_path = f"logs/log{self.log_count}.html"
         self.log_count += 1  # log_count is voor als we meerdere logbestanden willen maken in 1 run
 
         # html basis
@@ -249,10 +257,10 @@ class Reservatiesysteem:
             log_file.write(f"<td>{i}</td>")
         log_file.write(f"</tr></thead>")
 
-        # Als er geen vertoningen zijn voor die datum
+        # Als er geen vertoningen zijn op die datum
         if self.log.tableRetrieve(datum)[0] is None:
-            print(f"geen vertoningen voor {datum}")
-            return
+            print(f"geen vertoningen op {datum}")
+            return None, False
 
         for zaalnummer in self.log.tableRetrieve(datum)[0]:
             film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
@@ -284,13 +292,16 @@ class Reservatiesysteem:
         log_file.write("</table></body></html>")
 
         log_file.close()
+        return file_path, True
 
-    def reset(self):
+    def clearLogFiles(self):
         """
-        Reset het reservatiesysteem.
+        Verwijder alle logs
         :return: None
         """
-        # verwijder logs
+        # zet log_count terug op nul
+        self.log_count = 0
+
         for filename in os.listdir(self.logs_folder):
             file_path = os.path.join(self.logs_folder, filename)
             try:
@@ -299,8 +310,13 @@ class Reservatiesysteem:
             except Exception as e:
                 print('Kon het bestand %s niet verwijderen. Reden: %s' % (file_path, e))
 
-        # zet log_count terug op nul
-        self.log_count = 0
+    def reset(self):
+        """
+        Reset het reservatiesysteem.
+        :return: None
+        """
+        # verwijder logbestanden
+        self.clearLogFiles()
 
         # clear alle datastructuren
         self.zalen = BSTTable()

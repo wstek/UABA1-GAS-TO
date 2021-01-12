@@ -196,6 +196,7 @@ class BST:
             # Als de binaire boom leeg is add the item in de root
             if self.root is None:
                 self.root = BSTNode(key, newEntry)
+                self.count += 1
                 return True
             else:
                 self.searchTreeInsert(t, key, newEntry, self.root, False)
