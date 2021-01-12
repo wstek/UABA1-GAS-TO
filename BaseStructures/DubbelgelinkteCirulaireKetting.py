@@ -1,244 +1,262 @@
-import copy
+"""
+ADT contract voor circulaire dubbelgelinkte ketting
+"""
 
-class DubbelgelinkteCirulaireKetting:
+class LCNode:
+    def __init__(self, item=None, next_node=None, prev_node=None):
+        """
+        Creëer een knoop voor een circulaire dubbelgelinkte ketting.
+        :param item: waarde
+        :param next_node: volgende knoop
+        :param prev_node: vorige knoop
+        """
+        self.item = item
+        self.next = next_node
+        self.prev = prev_node
+
+
+class LinkedChain:
     def __init__(self):
-        self.N = 0
-        self.firstNode = node(None,None,None)
+        """
+        Creëert een lege circulaire dubbelgelinkte ketting.
+        """
+        self.head = None
+        self.count = 0
+
+    def load(self, LC_lijst):
+        """
+        Laadt de circulaire dubbelgelinkte ketting uit een lijst.
+        :param LC_lijst: lijst met items
+        :return: None
+        """
+        # Creëer de head
+        self.head = LCNode(LC_lijst[0])
+        prev_node = self.head
+
+        # Doorloop alle items in de lijst, maak daar knopen van en laat hun wijzen naar voor en achter
+        for i in LC_lijst[1:]:
+            n = LCNode(i)
+            prev_node.next = n
+            n.prev = prev_node
+            prev_node = n
+
+        # Laat de laatste knoop wijzen naar de head
+        prev_node.next = self.head
+        self.head.prev = prev_node
+
+    def save(self):
+        """
+        Slaagt de circulaire dubbelgelinkte ketting op in een lijst.
+        :return: lijst
+        """
+        # Return een lege lijst als de ketting leeg is
+        if self.head is None:
+            return []
+
+        # Creëer een lege lijst en zet de eerste knoop gelijk aan current_node
+        LC_lijst = []
+        current_node = self.head
+
+        # Doorloop alle knopen en voeg die toe aan de LC_lijst
+        while True:
+            LC_lijst.append(current_node.item)
+            current_node = current_node.next
+            if current_node == self.head:
+                return LC_lijst
+
+    def print(self):
+        """
+        Print de circulaire dubbelgelinkte ketting op het scherm.
+        :return: None
+        """
+        print(self.save())
 
     def isEmpty(self):
-        return self.firstNode.value == None and self.firstNode.nextPointer == None
+        """
+        Kijkt of de circulaire dubbelgelinkte ketting leeg is.
+        :return: boolean
+        """
+        if self.head is None:
+            return True
+        return False
 
     def getLength(self):
-        return self.N
+        """
+        Geeft de lengte van de circulaire dubbelgelinkte ketting terug.
+        :return: int
+        """
+        return self.count
 
-    def add(self, value, xnode=None):
+    def insert(self, n, newItem):
         """
-        functie voor het toevoegen van een item achteraan in de ketting
-        :parameter value
-        :return boolian True=toevoegen is gelukt, False=er is iets fout gegaan
+        Voegt het element 'newItem' toe op positie n in de circulaire dubbelgelinkte ketting.
+        :param newItem: waarde
+        :param n: positie
+        :return: None
         """
-        if self.exist(value):
+        # Ongeldige positie
+        if n > self.getLength() + 1 or n <= 0:
             return False
 
-        if xnode == None:
-            xnode = self.firstNode
+        # Lege ketting
+        if self.head is None:
+                new_node = LCNode(newItem)
+                new_node.next = new_node
+                new_node.prev = new_node
+                self.head = new_node
 
-        if xnode.nextPointer == None:
-            newNode = node(xnode, None, value)
-            xnode.nextPointer = newNode
-            self.firstNode.previousPointer = newNode
-            return True
-        else:
-            return self.add(value, xnode.nextPointer)
+                # Verhoog de count met 1
+                self.count += 1
 
-    def delete(self, value, xnode = None):
+                # succes
+                return True
+
+        # n = 1
+        elif n == 1:
+            # Zet current_node gelijk aan de laatste knoop van de ketting
+            current_node = self.head.prev
+        elif n > 1:
+            # Zet current_node gelijk aan de knoop op pos n - 1
+            current_node = self.head
+            for i in range(n - 2):
+                current_node = current_node.next
+
+        # Creëer een nieuwe knoop
+        new_node = LCNode(newItem)
+        # Laat de next pointer naar het eerstvolgende element wijzen
+        new_node.next = current_node.next
+        # en de prev pionter naar het vorige element wijzen
+        new_node.prev = current_node
+
+        # Laat de next pointer van het laatste element wijzen naar de nieuwe knoop
+        current_node.next = new_node
+        # Laat de prev pointer van de knoop voor de nieuwe knoop naar de nieuwe knoop wijzen
+        new_node.next.prev = new_node
+
+        # Laat de headpointer naar de nieuwe knoop wijzen als de gegeven positie 1 is
+        if n == 1:
+            self.head = new_node
+
+        # Verhoog de count met 1
+        self.count += 1
+
+        # succes
+        return True
+
+    def delete(self, n):
         """
-        functie voor het verwijderen van een item met een bepaalde value
-        :parameter value
-        :return boolian True=verwijderen is gelukt, False=er is iets fout gegaan
+        Verwijdert het element op positie n uit de circulaire dubbelgelinkte ketting.
+        :param n: positie van het element
+        :return: boolean
         """
-        if not self.exist(value):
+        # Ongeldige positie
+        if n <= 0:
             return False
 
-        if xnode == None:
-            xnode = self.firstNode
-
-        if xnode.value == value:
-            xnode.previousPointer.nextPointer = xnode.nextPointer
-            xnode.nextPointer.previousPointer = xnode.previousPointer
-            del xnode
-            return True
-        else:
-            return self.delete(value, xnode.nextPointer)
-
-    def insert(self, value, valueBefore = None, xnode = None):
-        """
-        functie voor het inserten van een item echter een ander item
-        :parameter value (de waarde die moet worden geinserd, valueBefore get item waar het achter moet geplaatst worden
-        :return boolian True=insert is gelukt, False=er is iets fout gegaan
-        """
-        if self.exist(value) or (not self.exist(valueBefore) and valueBefore != None):
+        # Zoek de te verwijderen knoop
+        current_node = self.retrieveNode(n)
+        if current_node is None:
             return False
 
-        if xnode == None:
-            xnode = self.firstNode
+        # Als de te verwijderen node de eerste in de ketting is
+        if current_node == self.head:
+            self.head = current_node.next
 
-        if xnode.value == valueBefore:
-            if xnode.nextPointer == self.firstNode:
-                next = None
-            else:
-                next = xnode.nextPointer
-            newNode = node(xnode, next, value)
-            xnode.nextPointer = newNode
-            xnode.nextPointer.previousPointer = newNode
-            return True
+        # Laat de pointer van de vorige en de volgende knoop niet meer naar current_node wijzen,
+        # maar naar de volgende/vorige in de ketting
+        current_node.prev.next = current_node.next
+        current_node.next.prev = current_node.prev
+
+        self.count -= 1
+
+        return True
+
+    def retrieveNode(self, n):
+        """
+        Geeft de knoop die op positie n staat in de circulaire dubbelgelinkte ketting terug.
+        :param n: positie van de node
+        :return: LCNode
+        """
+        if self.head is None:
+            return None
+
+        # Doorloop de knopen tot aan de gegeven positie
+        current_node = self.head
+        for i in range(n - 1):
+            current_node = current_node.next
+
+        return current_node
+
+    def retrieve(self, n):
+        """
+        Geeft het element op positie n terug in de circulaire dubbelgelinkte ketting.
+        :param n: positie van de item
+        :return: value
+        """
+        node = self.retrieveNode(n)
+        if node is not None:
+            return node.item, True
         else:
-            return self.insert(value,valueBefore, xnode.nextPointer)
+            return None, False
 
-    def update(self, newvalue, oldValue = None, xnode = None):
+    def clear(self):
         """
-        functie voor de waarde te update van een item
-        :parameter newvalue= de waarde dat het moet worden,  oldValue= de waarde die het momenteel heeft
-        :return boolian True=update is gelukt, False=er is iets fout gegaan
+        Wist de circulaire dubbelgelinkte ketting.
+        :return: success (boolean)
         """
-        if not self.exist(oldValue) or self.exist(newvalue):
-            return False
+        # Laat de headpointer wijzen naar None en zet de counter terug op 0
+        self.head = None
+        self.count = 0
 
-        if xnode == None:
-            xnode = self.firstNode
+        # succes
+        return True
 
-        if xnode.value == oldValue:
-            xnode.value = newvalue
-            return True
-        else:
-            return self.update(newvalue,oldValue, xnode.nextPointer)
-
-    def print(self, node = None):
-        """
-        functie die de ketting in volgorde uitprint
-        :parameter GEEN
-        :return GEEN
-        """
-        if node == None:
-            node = self.firstNode
-
-        print(node.value)
-        if node.nextPointer != None:
-            self.print(node.nextPointer)
-
-    def save(self, asNode=False, count=None, node=None, list=None):
-        """
-        functie die een lijst van de ketting terug geeft
-        :parameter
-            asNode (bool):
-                False (lijst met values van knopen)
-                True (lijst met knopen)
-            count (int): aantal items
-            node (node): start knoop
-        :return lijst
-        """
-        if list == None:
-            list = []
-
-        if node == None:
-            node = self.firstNode
-
-        if node.nextPointer != None and count == None:
-            if asNode:
-                list.append(node)
-            elif node.value != None:
-                list.append(node.value)
-            return self.save(asNode, count, node.nextPointer, list)
-        elif count != None:
-            if count > 1:
-                if asNode:
-                    list.append(node)
-                else:
-                    list.append(node.value)
-                count -= 1
-                return self.save(asNode, count, node.nextPointer, list)
-
-        if asNode:
-            node.nextPointer = self.firstNode
-            list.append(copy.copy(node))
-            node.nextPointer = None
-        else:
-            list.append(node.value)
-        return list
-
-    def get_previous_note(self, value, xnode = None):
-        """
-        functie voor de vorige node te krijgen
-        :parameter value: een value van een bestaande note
-        :return de note die voor de value van de gegeven note zit
-        """
-        if xnode == None:
-            xnode = self.firstNode
-
-        if xnode.value == value:
-            return xnode.previousPointer
-        else:
-            return self.get_previous_note(value, xnode.previousPointer)
-
-    def get_next_note(self, value, xnode = None):
-        """
-        functie voor de volgende node te krijgen
-        :parameter value: een value van een bestaande note
-        :return de note die na de value van de gegeven note zit
-        """
-        if xnode == None:
-            xnode = self.firstNode
-
-        if xnode.value == value:
-            if xnode.nextPointer == None:
-                return self.firstNode
-            return xnode.nextPointer
-        else:
-            return self.get_next_note(value, xnode.nextPointer)
-
-    def retrieve(self, value, xnode=None):
-        """
-        functie voor de node met een value te krijgen
-        :parameter value: een value van een bestaande note
-        :return de not van die value
-        """
-        if xnode == None:
-            xnode = self.firstNode
-
-        if xnode.value == value:
-            return xnode
-        else:
-            if(xnode.nextPointer == None):
-                return (False, False)
-            return self.retrieve(value, xnode.nextPointer)
-
-    def exist(self, value, xnode = None):
-        """
-        functie voor het bestaan van een waarde te controleren
-        :parameter value: een waarde
-        :return (bool):
-            True: de waarde zit in de ketting
-            False: De waarde zit niet in de ketting
-        """
-        if xnode == None:
-            xnode = self.firstNode.nextPointer
-
-        if xnode == None:
-            return False
-        elif xnode.value == value:
-            return True
-        elif xnode.nextPointer == None:
-            return False
-        else:
-            return self.exist(value, xnode.nextPointer)
-
-    def load(self, list):
-        for item in list:
-            self.insert(item)
-
-class node:
-    def __init__(self, previousPointer, nextPointer, value):
-        self.previousPointer = previousPointer
-        self.nextPointer = nextPointer
-        self.value = value
+if __name__ == "__main__":
+    l = LinkedChain()
+    #
+    # for i in range(10):
+    #     print(l.save())
+    #     l.insert(1, i)
+    #
+    # print(l.save())
+    # l.insert(10, "test")
+    # print(l.save())
+    #
+    # l.delete(11)
+    #
+    # print(l.save())
 
 
+    print(l.isEmpty())
+    print(l.getLength())
+    print(l.retrieve(4)[1])
+    print(l.insert(4,500))
+    print(l.isEmpty())
+    print(l.insert(1,500))
+    print(l.retrieve(1)[0])
+    print(l.retrieve(1)[1])
+    print(l.save())
+    print(l.insert(1,600))
+    print(l.save())
+    l.load([10,-9,15])
+    l.insert(3,20)
+    print(l.delete(0))
+    print(l.save())
+    print(l.delete(1))
+    print(l.save())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # True
+    # 0
+    # False
+    # False
+    # True
+    # True
+    # 500
+    # True
+    # [500]
+    # True
+    # [600, 500]
+    # False
+    # [10, -9, 20, 15]
+    # True
+    # [-9, 20, 15]

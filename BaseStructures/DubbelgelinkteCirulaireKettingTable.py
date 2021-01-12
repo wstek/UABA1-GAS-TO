@@ -1,59 +1,84 @@
-from BaseStructures.DubbelgelinkteCirulaireKetting import *
+"""
+ADT contract voor tabel, ketting implementatie
+"""
 
-class DubbelgelinkteCirulaireKettingTable():
+from WilliamStructures.DubbelgelinkteCirulaireKetting import *
+
+class LinkedChainTable():
     def __init__(self):
-        self.ketting = DubbelgelinkteCirulaireKetting()
+        """
+        Creëer een lege tabel.
+        """
+        self.linked_chain = LinkedChain.LinkedChain()
 
-    def tableIsEmpty(self):  # {query}
+    def load(self, LC_lijst):
         """
-        Is de ketting leeg
-        :param geen
-        :return isEmpty (bool)
+        Laadt de tabel (ketting implementatie) uit een lijst.
+        :param LC_lijst: lijst met items
+        :return: None
         """
-        return self.ketting.isEmpty()
-
-    def tableLength(self):  # {query}
-        """
-        lengte van de ketting
-        :param geen
-        :return lenght (int)
-        """
-        return self.ketting.getLength()
-
-    def tableDelete(self, value):
-        """
-        delete node van ketting
-        :param de value van de ketting die verwijderd moet worden
-        :return correct verwijderd (bool)
-        """
-        return self.ketting.delete(value)
-
-    def tableRetrieve(self, value):
-        """
-        retrieve node van ketting
-        :param valie (int)
-        :return de opgevraagde node
-        """
-        return self.ketting.retrieve(value)
-
-    def tableInsert(self, value):
-        """
-        insert een node op een bepaalde positie
-        :param pos: possitie (int), item: waarde van de node
-        :return insert gelukt (bool)
-        """
-        return self.ketting.insert(value)
+        self.linked_chain.load(LC_lijst)
 
     def save(self):
         """
-        geeft de gelinkte ketting als list
-        :return de gelikte ketting als list
+        Slaagt de tabel (ketting implementatie) op in een lijst.
+        :return: lijst
         """
-        return self.ketting.save()
+        return self.linked_chain.save()
 
-    def load(self, lijst):
+    def tableIsEmpty(self):
         """
-        laad ene lijst in de gelinkte ketting
-        :return indien het innladen gelukt is (bool)
+        Bepaalt of de tabel leeg is. (query)
+        :return: boolean
         """
-        return self.ketting.load(lijst)
+        return self.linked_chain.isEmpty()
+
+    def tableLength(self):
+        """
+        Geeft de lengte van de tabel terug. (query)
+        :return: lengte van de tabel
+        """
+        return self.linked_chain.getLength()
+
+    def tableInsert(self, n, newItem):
+        """
+        Voegt newItem toe de tabel op positie n. Success geeft weer of het toevoegen gelukt is.
+        :return: success (boolean)
+        """
+        return self.linked_chain.insert(n, newItem)
+
+    def tableDelete(self, searchKey):
+        """
+        Verwijdert een entry in de tabel mbv een zoeksleutel. Success geeft weer of het toevoegen gelukt is.
+        :param searchKey: zoeksleutel (KeyType)
+        :return: success (boolean)
+        """
+        return self.linked_chain.delete(searchKey)
+
+    def tableRetrieve(self, searchKey):
+        """
+        Geeft een waarde terug mbv de zoeksleutel.
+        :param searchKey: zoeksleutel (KeyType)
+        :return: tableItem (TableItemType), success (boolean)
+        """
+        return self.linked_chain.retrieve(searchKey)
+
+if __name__ == "__main__":
+    l = LinkedChainTable()
+    print(l.tableIsEmpty())
+    print(l.tableLength())
+    print(l.tableRetrieve(4)[1])
+    print(l.tableInsert(4,500))
+    print(l.tableIsEmpty())
+    print(l.tableInsert(1,500))
+    print(l.tableRetrieve(1)[0])
+    print(l.tableRetrieve(1)[1])
+    print(l.save())
+    print(l.tableInsert(1,600))
+    print(l.save())
+    l.load([10,-9,15])
+    l.tableInsert(3,20)
+    print(l.tableDelete(0))
+    print(l.save())
+    print(l.tableDelete(10))
+    print(l.save())

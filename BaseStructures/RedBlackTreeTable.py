@@ -2,8 +2,7 @@
 ADT contract voor tabel, rood-zwartboom implementatie
 """
 
-from BaseStructures import RedBlackTree
-
+import WilliamStructures.RedBlackTree as RedBlackTree
 
 def createTreeItem(key,val=None):
     return key, val
