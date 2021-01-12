@@ -20,4 +20,4 @@ class Film:
         """
         self.titel = film_titel
         self.rating = film_rating
-        self.vertoningen = {}
+        self.vertoningen = []
