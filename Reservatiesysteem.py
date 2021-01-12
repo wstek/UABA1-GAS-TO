@@ -34,7 +34,7 @@ class Reservatiesysteem:
         initialiseerd het reservatiesysteem
         """
         self.zalen = BSTTable()
-        self.filmen = BSTTable()
+        self.films = BSTTable()
         self.vertoningen = BSTTable()
         self.gebruikers = BSTTable()
         self.reservaties = Queue()
@@ -130,7 +130,7 @@ class Reservatiesysteem:
         :return: None
         """
         nieuwe_film = Film(film_titel, film_rating)
-        self.filmen.tableInsert(createTreeItem(film_id, nieuwe_film))
+        self.films.tableInsert(createTreeItem(film_id, nieuwe_film))
 
     def addVertoning(self, vertoning_id, zaalnummer, film_id, timeslot, datum_vertoning, aantal_vrije_plaatsen):
         """
@@ -216,7 +216,7 @@ class Reservatiesysteem:
         # Als iedereen aanwezig is dan start de film
         if vertoning.verwachte_personen.isEmpty():
             vertoning.gestart = True
-            print(f'film "{self.filmen.tableRetrieve(vertoning.film_id)[0].titel}" begint')
+            print(f'film "{self.films.tableRetrieve(vertoning.film_id)[0].titel}" begint')
 
     def createLog(self, timestamp, datum):
         """
@@ -268,7 +268,7 @@ class Reservatiesysteem:
             film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
 
             # Titel
-            log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.filmen.tableRetrieve(film_id)[0].titel}")
+            log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.films.tableRetrieve(film_id)[0].titel}")
 
             # Rijen in de tabel
             vertoningen = self.log.tableRetrieve(datum)[0][zaalnummer]
@@ -322,7 +322,7 @@ class Reservatiesysteem:
 
         # clear alle datastructuren
         self.zalen = BSTTable()
-        self.filmen = BSTTable()
+        self.films = BSTTable()
         self.vertoningen = BSTTable()
         self.gebruikers = BSTTable()
         self.reservaties = Queue()

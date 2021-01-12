@@ -142,14 +142,20 @@ class StartFrame(tk.Frame):
         self.date = date
         tk.Label(self, text="Reservatiesysteem",
                  font=("Arial Bold", 30)).pack(side="top", fill="x", pady=10)
-        tk.Button(self, text="Data", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
+        tk.Button(self, text="Data", command=lambda: parent.switchFrame(DataFrame)).pack(pady=15)
         self.time_entry = tk.Entry(self, width=10)
         self.time_entry.pack()
-        tk.Button(self, text="Zet tijd", command=lambda: self.setTime()).pack(pady=10)
+        tk.Button(self, text="Zet tijd", command=lambda: self.setTime()).pack(pady=5)
         self.date_entry = tk.Entry(self, width=10)
         self.date_entry.pack()
-        tk.Button(self, text="Zet datum", command=lambda: self.setDate()).pack(pady=10)
+        tk.Button(self, text="Zet datum", command=lambda: self.setDate()).pack(pady=5)
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
+        tk.Label(self, text="Huidige tijd:").pack(side="top")
+        self.time_label = tk.Label(self, text=f"{self.time[0]}:{self.time[1]}")
+        self.time_label.pack(side="top", pady=2)
+        tk.Label(self, text="Huidige datum:").pack(side="top", pady=2)
+        self.date_label = tk.Label(self, text=f"{self.date[0]}/{self.date[1]}/{self.date[2]}")
+        self.date_label.pack(side="top")
 
     def createLog(self):
         """
@@ -176,6 +182,7 @@ class StartFrame(tk.Frame):
         try:
             res2 = res.split(":")
             self.time = [int(item) for item in res2]
+            self.time_label.configure(text=f"{self.time[0]}:{self.time[1]}")
             print(self.time)
         except:
             messagebox.showinfo("Error", f"Ongeldige tijd", icon='warning')
@@ -189,6 +196,7 @@ class StartFrame(tk.Frame):
         try:
             res2 = res.split("/")
             self.date = [int(item) for item in res2]
+            self.date_label.configure(text=f"{self.date[0]}/{self.date[1]}/{self.date[2]}")
             print(self.date)
         except:
             messagebox.showinfo("Error", f"Ongeldige datum", icon='warning')
@@ -240,10 +248,10 @@ class ZalenFrame(tk.Frame):
         """
         temp_list = []
         self.sys.zalen.traverseTable(temp_list.append)
-        self.zalen_lijst.insert(tk.INSERT, "zaalnummer \tplaatsen\n")
+        self.zalen_lijst.insert(tk.INSERT, "zaalnummer \tplaatsen")
         for zaal_nummer in temp_list:
             zaal = self.sys.zalen.tableRetrieve(zaal_nummer)[0]
-            self.zalen_lijst.insert(tk.INSERT, f"{zaal_nummer}\t    {zaal.seats}\n")
+            self.zalen_lijst.insert(tk.INSERT, f"\n{zaal_nummer}\t    {zaal.seats}")
 
         self.zalen_lijst.configure(state="disabled")
 
@@ -293,7 +301,67 @@ class FilmsFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
+        self.films_lijst = scrolledtext.ScrolledText(self, width=50, height=20)
+        self.films_lijst.pack(pady=10)
+        self.updateFilmsLijst()
+        tk.Button(self, text="Film toevoegen", command=lambda: parent.switchFrame(AddFilmFrame)).pack(pady=10)
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
+
+    def updateFilmsLijst(self):
+        """
+        Toon alle films op het scherm
+        :return: None
+        """
+        temp_list = []
+        self.sys.films.traverseTable(temp_list.append)
+        self.films_lijst.insert(tk.INSERT, "id \ttitel \t\trating")
+        for film_id in temp_list:
+            film = self.sys.films.tableRetrieve(film_id)[0]
+            self.films_lijst.insert(tk.INSERT, f"\n{film_id}\t{film.titel}\t\t{film.rating}")
+
+        self.films_lijst.configure(state="disabled")
+
+
+class AddFilmFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        tk.Label(self, text="Titel").pack(side="top", pady=10)
+        self.titel_entry = tk.Entry(self, width=10)
+        self.titel_entry.pack()
+
+        tk.Label(self, text="Rating").pack(side="top", pady=10)
+        self.rating_entry = tk.Entry(self, width=10)
+        self.rating_entry.pack()
+
+        tk.Button(self, text="Toevoegen", command=lambda: self.addFilm()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(FilmsFrame)).pack(pady=10)
+
+    def addFilm(self):
+        """
+        Voegt een film toe aan het systeem.
+        :return: None
+        """
+        # genereer een id voor de film
+        film_id = self.sys.films.tableLength() + 1
+        while True:
+            if not self.sys.films.tableRetrieve(film_id)[1]:
+                break
+            film_id += 1
+
+        film_titel = self.titel_entry.get()
+
+        try:
+            film_rating = float(self.rating_entry.get())
+        except:
+            print("error: ongeldige film rating")
+            return
+
+        self.sys.addFilm(film_id, film_titel, film_rating)
+        messagebox.showinfo("Info", "Film toegevoegd!")
 
 
 class VertoningenFrame(tk.Frame):
