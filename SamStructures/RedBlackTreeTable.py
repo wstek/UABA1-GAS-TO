@@ -1,4 +1,4 @@
-from SamsStructures.RedBlackTree import *
+from SamStructures.RedBlackTree import *
 
 
 class RedBlackTreeTable:

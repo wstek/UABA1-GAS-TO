@@ -14,7 +14,7 @@ Specifieke structuren:
 -   Queue (reservaties)                     - alle 4
 """
 
-# add (name+s)Structures. om een andere structuur te gebruiken example: "from SamsStructures.BSTTable import *"
+# add (name+s)Structures. om een andere structuur te gebruiken example: "from SamStructures.BSTTable import *"
 from Film import *
 from Reservatie import *
 from Gebruiker import *

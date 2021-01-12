@@ -1,4 +1,4 @@
-from SamsStructures.BST import *
+from SamStructures.BST import *
 
 
 class BSTTable:

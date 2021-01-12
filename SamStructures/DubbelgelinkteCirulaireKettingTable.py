@@ -1,4 +1,4 @@
-from SamsStructures.DubbelgelinkteCirulaireKetting import *
+from SamStructures.DubbelgelinkteCirulaireKetting import *
 
 
 class DubbelgelinkteCirulaireKettingTable():
