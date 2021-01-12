@@ -17,6 +17,7 @@ class Stack:
     def __init__(self, maxlengt):
         self.stack = []
         self.maxlen = maxlengt
+        self.count = 0;
         pass
 
     """
@@ -35,6 +36,7 @@ class Stack:
         success: geeft True terug indien het item in de stack is geplaatst, indien er iets fout is gegaan False
     """
     def push(self, item):
+        self.count += 1
         if(self.maxlen > len(self.stack)):
             self.stack.append(item)
             return True
@@ -51,6 +53,7 @@ class Stack:
         stackTop: de waarde van het laatst toegevoegde element
     """
     def pop(self):
+        self.count -= 1
         if (len(self.stack) > 0):
             returnValue = self.stack[len(self.stack) - 1];
             self.stack.remove(self.stack[len(self.stack) - 1])
@@ -78,3 +81,6 @@ class Stack:
 
     def load(self, stack):
         self.stack = stack
+
+    def getLength(self):
+        return self.count
