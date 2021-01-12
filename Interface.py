@@ -101,7 +101,7 @@ class ReservatiesysteemInterface(tk.Tk):
             # ga Terug naar de startpagina
             self.switchFrame(StartFrame)
 
-            messagebox.showinfo("Info", "Script werd succesvol verwerkt!")
+            messagebox.showinfo("Info", "Script succesvol verwerkt!")
         else:
             messagebox.showinfo("Error", "Script kon niet verwerkt worden", icon='warning')
             # Zet het oude reservatiesysteem Terug

@@ -212,8 +212,11 @@ class Reservatiesysteem:
 
         # Pop de tickets van de stack en incrementeer vertoning.aanwezig
         for aanwezige in range(aantal_aanwezigen):
-            vertoning.verwachte_personen.pop()
-            vertoning.aanwezig += 1
+            succes = vertoning.verwachte_personen.pop()[1]
+            if succes:
+                vertoning.aanwezig += 1
+            else:
+                return
 
         # Als iedereen aanwezig is dan start de film
         if vertoning.verwachte_personen.isEmpty():
