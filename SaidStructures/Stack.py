@@ -92,6 +92,9 @@ class Stack:
             j += 1
         self.size = len(lijst)
 
+    def getLength(self):
+        return self.size
+
 s = Stack()
 print(s.isEmpty())
 print(s.getTop()[1])
