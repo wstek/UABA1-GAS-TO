@@ -2,7 +2,7 @@
 ADT contract voor tabel, ketting implementatie
 """
 
-import LinkedChain
+from WilliamStructures.DubbelgelinkteCirulaireKetting import *
 
 class LinkedChainTable():
     def __init__(self):
