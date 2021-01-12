@@ -20,8 +20,8 @@ from Reservatie import *
 from Gebruiker import *
 from Zaal import *
 from Vertoning import *
-from WilliamStructures.BSTTable import *
-from WilliamStructures.Queue import Queue
+from BaseStructures.BSTTable import *
+from BaseStructures.Queue import Queue
 import shlex
 import os
 
