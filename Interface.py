@@ -160,7 +160,11 @@ class StartFrame(tk.Frame):
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
 
         tk.Label(self, text="Huidige tijd:").pack(side="top")
-        self.time_label = tk.Label(self, text=f"{self.time[0]}:{self.time[1]}")
+        if len(str(self.time[1])) == 1:
+            time = "0" + str(self.time[1])
+        else:
+            time = self.time[1]
+        self.time_label = tk.Label(self, text=f"{self.time[0]}:{time}")
         self.time_label.pack(side="top", pady=2)
 
         tk.Label(self, text="Huidige datum:").pack(side="top", pady=2)
@@ -171,7 +175,12 @@ class StartFrame(tk.Frame):
         """
         Creëert een log en opent het in de standaard webbrowser.
         """
-        log_succes = self.sys.createLog(f"{self.time[0]}:{self.time[1]}",
+        if len(str(self.time[1])) == 1:
+            time = "0" + str(self.time[1])
+        else:
+            time = self.time[1]
+        self.time_label = tk.Label(self, text=f"{self.time[0]}:{time}")
+        log_succes = self.sys.createLog(f"{self.time[0]}:{time}",
                                         f"{self.date[2]}-{self.date[1]}-{self.date[0]}")
 
         # open het logbestand
@@ -291,13 +300,13 @@ class AddZaalFrame(tk.Frame):
         try:
             zaalnummer = int(self.zaalnummer_entry.get())
         except:
-            print("error: ongeldige zaalnummer")
+            messagebox.showinfo("Error", "Ongeldige zaalnummer", icon='warning')
             return
 
         try:
             seats = int(self.seats_entry.get())
         except:
-            print("error: ongeldige seats")
+            messagebox.showinfo("Error", "Ongeldige seats", icon='warning')
             return
 
         self.sys.addZaal(zaalnummer, seats)
@@ -366,7 +375,7 @@ class AddFilmFrame(tk.Frame):
         try:
             film_rating = float(self.rating_entry.get())
         except:
-            print("error: ongeldige film rating")
+            messagebox.showinfo("Error", "Ongeldige filmrating", icon='warning')
             return
 
         self.sys.addFilm(film_id, film_titel, film_rating)
@@ -633,7 +642,7 @@ class AddReservatieFrame(tk.Frame):
         try:
             plaatsen = int(self.plaatsen_entry.get())
         except:
-            print("error: ongeldig aantal plaatsen")
+            messagebox.showinfo("Error", "Ongeldig aantal plaatsen", icon='warning')
             return
 
         self.sys.addReservatie(self.gebruiker_dict[self.gebruiker_entry.get()],
@@ -685,7 +694,7 @@ class UpdateAanwezigenFrame(tk.Frame):
         try:
             aantal_aanwezigen = int(self.aanwezigen_entry.get())
         except:
-            print("error: ongeldig aantal aanwezigen")
+            messagebox.showinfo("Error", "Ongeldig aantal aanwezigen", icon='warning')
             return
 
         self.sys.updateAanwezigen(self.vertoning_dict[self.vertoning_entry.get()],
