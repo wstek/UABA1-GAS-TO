@@ -34,7 +34,18 @@ class DubbelgelinkteCirulaireKettingTable():
         :param valie (int)
         :return de opgevraagde node
         """
-        return self.ketting.retrieve(value)
+        if(isinstance(value, int)):
+            return self.ketting.retrieve1(value)
+        else:
+            return self.ketting.retrieve(value)
+
+    def tableInsert(self, value, pos):
+        """
+        insert een node op een bepaalde positie
+        :param pos: possitie (int), item: waarde van de node
+        :return insert gelukt (bool)
+        """
+        return self.ketting.insert1(value, pos)
 
     def tableInsert(self, value):
         """
@@ -42,7 +53,7 @@ class DubbelgelinkteCirulaireKettingTable():
         :param pos: possitie (int), item: waarde van de node
         :return insert gelukt (bool)
         """
-        return self.ketting.insert(value)
+        return self.ketting.add(value)
 
     def save(self):
         """

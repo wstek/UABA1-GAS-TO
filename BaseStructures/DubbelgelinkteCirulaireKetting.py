@@ -75,6 +75,14 @@ class DubbelgelinkteCirulaireKetting:
         else:
             return self.insert(value,valueBefore, xnode.nextPointer)
 
+    def insert1(self, value, pos):
+        xnode = self.firstNode
+        for x in range(pos):
+            xnode = xnode.nextPointer
+        next = xnode.nextPointer
+        newNode = node(xnode, next, value)
+        xnode.nextPointer = node(xnode, next, value)
+
     def update(self, newvalue, oldValue = None, xnode = None):
         """
         functie voor de waarde te update van een item
@@ -189,8 +197,23 @@ class DubbelgelinkteCirulaireKetting:
             return xnode
         else:
             if(xnode.nextPointer == None):
-                return (False, False)
+                return (None, False)
             return self.retrieve(value, xnode.nextPointer)
+
+    def retrieve1(self, pos):
+        """
+        functie voor de node met een value te krijgen
+        :parameter value: een value van een bestaande note
+        :return de not van die value
+        """
+        xnode = self.firstNode
+        for x in range(pos):
+            if(xnode.nextPointer != None):
+                xnode = xnode.nextPointer
+            else:
+                xnode = self.firstNode
+
+        return (xnode.value[1], True)
 
     def exist(self, value, xnode = None):
         """
