@@ -172,8 +172,8 @@ class StartFrame(tk.Frame):
         """
         res = self.time_entry.get()
         try:
-            self.time = res.split(":")
-            self.time = [int(item) for item in self.time]
+            res2 = res.split(":")
+            self.time = [int(item) for item in res2]
             print(self.time)
         except:
             messagebox.showinfo("Error", f"Geen geldige tijd", icon='warning')
@@ -185,8 +185,8 @@ class StartFrame(tk.Frame):
         """
         res = self.date_entry.get()
         try:
-            self.date = res.split("/")
-            self.date = [int(item) for item in self.date]
+            res2 = res.split("/")
+            self.date = [int(item) for item in res2]
             print(self.date)
         except:
             messagebox.showinfo("Error", f"Geen geldige datum", icon='warning')
