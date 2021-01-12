@@ -378,6 +378,10 @@ class AddFilmFrame(tk.Frame):
             messagebox.showinfo("Error", "Ongeldige filmrating", icon='warning')
             return
 
+        if not film_titel:
+            messagebox.showinfo("Error", "Lege titel", icon='warning')
+            return
+
         self.sys.addFilm(film_id, film_titel, film_rating)
         messagebox.showinfo("Info", "Film toegevoegd!")
 
@@ -472,6 +476,9 @@ class AddVertoningFrame(tk.Frame):
         vert_datum = self.date_entry.get()
         vert_plaatsen = self.sys.zalen.tableRetrieve(vert_zaal)[0].seats
 
+        if not vert_datum:
+            messagebox.showinfo("Error", "Lege datum", icon='warning')
+
         self.sys.addVertoning(vertoning_id, vert_zaal, vert_film, vert_slot, vert_datum, vert_plaatsen)
         messagebox.showinfo("Info", "Vertoning toegevoegd!")
 
@@ -537,6 +544,9 @@ class AddGebruikerFrame(tk.Frame):
             if not self.sys.gebruikers.tableRetrieve(gebruiker_id)[1]:
                 break
             gebruiker_id += 1
+
+        if not self.firstname_entry.get() or not self.surname_entry.get() or not self.email_entry.get():
+            messagebox.showinfo("Error", "Leeg veld", icon='warning')
             
         self.sys.addGebruiker(gebruiker_id, self.firstname_entry.get(), self.surname_entry.get(), self.email_entry.get())
         messagebox.showinfo("Info", "Gebruiker toegevoegd!")
