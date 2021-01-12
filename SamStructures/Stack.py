@@ -14,6 +14,7 @@ class Stack:
         maakt een stack aan
         """
         self.top = None
+        self.length = 0
 
     def isEmpty(self):  # {query}
         """
@@ -40,6 +41,7 @@ class Stack:
             newNode.next = None
             self.top = newNode
             if self.top == newNode and not self.top.next:
+                self.length += 1
                 return True
             else:
                 return False
@@ -49,6 +51,7 @@ class Stack:
             newNode.next = self.top
             self.top = newNode
             if self.top == newNode and self.top.next == oldTop:
+                self.length += 1
                 return True
             else:
                 return False
@@ -67,6 +70,7 @@ class Stack:
             self.top = toDelete.next
             if self.top != toDelete:
                 return toDelete.item, True
+                self.length -= 1
             else:
                 return None, False
 
@@ -115,3 +119,9 @@ class Stack:
         for i in range(0, len(stacklist)):
             self.push(stacklist[i])
 
+    def getLength(self):
+        """
+        geeft de lengte van de stack terug
+        :return: lengte van de stack (int)
+        """
+        return self.length
