@@ -556,34 +556,6 @@ class AddGebruikerFrame(tk.Frame):
         messagebox.showinfo("Info", "Gebruiker toegevoegd!")
 
 
-class ReservatiesFrame(tk.Frame):
-    def __init__(self, parent, sys, time, date):
-        tk.Frame.__init__(self, parent)
-        self.sys = sys
-        self.time = time
-        self.date = date
-        # self.reservaties_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
-        # self.reservaties_lijst.pack(pady=10)
-        # self.updateReservatiesLijst()
-        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
-
-    # def updateReservatiesLijst(self):
-    #     """
-    #     Toon alle reservaties op het scherm
-    #     :return: None
-    #     """
-    #     temp_list = []
-    #     self.sys.reservaties.traverseTable(temp_list.append)
-    #     self.reservaties_lijst.insert(tk.INSERT, "id\tgebruiker\tvertoning\tplaatsen\ttimestamp\tdatum")
-    #     for reservatie_id in temp_list:
-    #         reservatie = self.sys.reservaties.tableRetrieve(reservatie_id)[0]
-    #         self.reservaties_lijst.insert(tk.INSERT, f"\n{reservatie_id}\t{reservatie.gebruiker_id}\t\t" +
-    #                                       f"{reservatie.vertoning_id}\t\t{reservatie.plaatsen_gereserveerd}" +
-    #                                       f"{reservatie.timestamp}\t{reservatie.datum}")
-    #
-    #     self.reservaties_lijst.configure(state="disabled")
-
-
 class AddReservatieFrame(tk.Frame):
     def __init__(self, parent, sys, time, date):
         tk.Frame.__init__(self, parent)
