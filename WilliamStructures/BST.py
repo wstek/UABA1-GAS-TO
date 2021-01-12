@@ -427,7 +427,6 @@ class BST:
         # Zet in het begin current_node gelijk aan die van de wortel
         if start:
             if self.root is None:
-                print(None)
                 return
             current_node = self.root
 
@@ -450,7 +449,6 @@ class BST:
         # Zet in het begin current_node gelijk aan die van de wortel
         if start:
             if self.root is None:
-                print(None)
                 return
             current_node = self.root
 
@@ -473,7 +471,6 @@ class BST:
         # Zet in het begin current_node gelijk aan die van de wortel
         if start:
             if self.root is None:
-                print(None)
                 return
             current_node = self.root
 
