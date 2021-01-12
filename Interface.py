@@ -37,7 +37,7 @@ class ReservatiesysteemInterface(tk.Tk):
 
         # zet de windowsize en titel
         self.geometry(f"{WIDTH}x{HEIGHT}")
-        self.title("Reservatiesysteem")
+        self.title("Reservatiesysteem Sandbox")
 
         # Maak de window niet resizable
         self.resizable(False, False)
@@ -154,6 +154,9 @@ class StartFrame(tk.Frame):
         self.date_entry.pack()
         tk.Button(self, text="Verander datum (dd/mm/yy)", command=lambda: self.setDate()).pack(pady=5)
 
+        tk.Button(self, text="Reservatie toevoegen", command=lambda: parent.switchFrame(AddReservatieFrame)).pack(pady=10)
+        tk.Button(self, text="Update aanwezigen", command=lambda: parent.switchFrame(UpdateAanwezigenFrame)).pack(pady=10)
+
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
 
         tk.Label(self, text="Huidige tijd:").pack(side="top")
@@ -231,7 +234,6 @@ class DataFrame(tk.Frame):
         tk.Button(self, text="Films", command=lambda: parent.switchFrame(FilmsFrame)).pack(pady=10)
         tk.Button(self, text="Vertoningen", command=lambda: parent.switchFrame(VertoningenFrame)).pack(pady=10)
         tk.Button(self, text="Gebruikers", command=lambda: parent.switchFrame(GebruikersFrame)).pack(pady=10)
-        tk.Button(self, text="Reservaties", command=lambda: parent.switchFrame(ReservatiesFrame)).pack(pady=10)
 
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(StartFrame)).pack(pady=10)
 
@@ -537,7 +539,158 @@ class ReservatiesFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
+        # self.reservaties_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
+        # self.reservaties_lijst.pack(pady=10)
+        # self.updateReservatiesLijst()
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
+
+    # def updateReservatiesLijst(self):
+    #     """
+    #     Toon alle reservaties op het scherm
+    #     :return: None
+    #     """
+    #     temp_list = []
+    #     self.sys.reservaties.traverseTable(temp_list.append)
+    #     self.reservaties_lijst.insert(tk.INSERT, "id\tgebruiker\tvertoning\tplaatsen\ttimestamp\tdatum")
+    #     for reservatie_id in temp_list:
+    #         reservatie = self.sys.reservaties.tableRetrieve(reservatie_id)[0]
+    #         self.reservaties_lijst.insert(tk.INSERT, f"\n{reservatie_id}\t{reservatie.gebruiker_id}\t\t" +
+    #                                       f"{reservatie.vertoning_id}\t\t{reservatie.plaatsen_gereserveerd}" +
+    #                                       f"{reservatie.timestamp}\t{reservatie.datum}")
+    #
+    #     self.reservaties_lijst.configure(state="disabled")
+
+
+class AddReservatieFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        self.vertoning_dict = {}
+
+        # gebruiker combobox
+        tk.Label(self, text="Gebruiker").pack(side="top", pady=10)
+        self.gebruiker_entry = Combobox(self)
+        temp_list = []
+        self.sys.gebruikers.traverseTable(temp_list.append)
+        temp_list2 = []
+        self.gebruiker_dict = {}
+        for gebruiker_id in temp_list:
+            gebruiker = self.sys.gebruikers.tableRetrieve(gebruiker_id)[0]
+            naam = gebruiker.firstname + " " + gebruiker.surname
+            temp_list2.append(naam)
+            self.gebruiker_dict[naam] = gebruiker_id
+        self.gebruiker_entry['values'] = temp_list2
+        self.gebruiker_entry.pack()
+
+        # film combobox
+        tk.Label(self, text="Film").pack(side="top", pady=10)
+        self.film_entry = Combobox(self)
+        temp_list = []
+        self.sys.films.traverseTable(temp_list.append)
+        temp_list2 = []
+        self.film_dict = {}
+        for film_id in temp_list:
+            temp_list2.append(self.sys.films.tableRetrieve(film_id)[0].titel)
+            self.film_dict[self.sys.films.tableRetrieve(film_id)[0].titel] = film_id
+        self.film_entry['values'] = temp_list2
+        self.film_entry.bind("<<ComboboxSelected>>", self.vertoningBoxUpdate)
+        self.film_entry.pack()
+
+        # Toon mogelijke datum tijd van vertoningen
+        tk.Label(self, text="Vertoning").pack(side="top", pady=10)
+        self.vertoning_entry = Combobox(self)
+        self.vertoning_entry.pack()
+
+        # plaatsen gereserveerd
+        tk.Label(self, text="Aantal plaatsen").pack(side="top", pady=10)
+        self.plaatsen_entry = tk.Entry(self, width=25)
+        self.plaatsen_entry.pack()
+
+        tk.Button(self, text="Toevoegen", command=lambda: self.addReservatie()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(StartFrame)).pack(pady=10)
+
+    def vertoningBoxUpdate(self, event_object):
+        # print(self.film_dict[self.film_entry.get()])
+        # print(event_object)
+        film_id = self.film_dict[self.film_entry.get()]
+        temp_list = []
+        vertoningen = self.sys.films.tableRetrieve(film_id)[0].vertoningen
+
+        for vertoning_id in vertoningen:
+            vertoning = self.sys.vertoningen.tableRetrieve(vertoning_id)[0]
+            temp_list.append(f"{vertoning.datum}   {Vertoning.sloten[vertoning.timeslot]}")
+            self.vertoning_dict[f"{vertoning.datum}   {Vertoning.sloten[vertoning.timeslot]}"] = vertoning_id
+        self.vertoning_entry['values'] = temp_list
+
+    def addReservatie(self):
+        """
+        Voegt een reservatie toe aan het systeem.
+        :return: None
+        """
+        try:
+            plaatsen = int(self.plaatsen_entry.get())
+        except:
+            print("error: ongeldig aantal plaatsen")
+            return
+
+        self.sys.addReservatie(self.gebruiker_dict[self.gebruiker_entry.get()],
+                               self.vertoning_dict[self.vertoning_entry.get()],
+                               plaatsen, f"{self.time[0]}:{self.time[1]}",
+                               f"{self.date[2]}-{self.date[1]}-{self.date[0]}")
+
+        self.sys.updateReservaties()
+
+        messagebox.showinfo("Info", "Reservatie toegevoegd!")
+
+
+class UpdateAanwezigenFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        temp_list = []
+        self.sys.vertoningen.traverseTable(temp_list.append)
+
+        self.vertoning_dict = {}
+
+        tk.Label(self, text="Vertoning").pack(side="top", pady=10)
+        self.vertoning_entry = Combobox(self)
+        self.vertoning_entry.pack()
+
+        temp_list2 = []
+        for vertoning_id in temp_list:
+            vertoning = self.sys.vertoningen.tableRetrieve(vertoning_id)[0]
+            temp_list2.append(f"{vertoning.datum}   {Vertoning.sloten[vertoning.timeslot]}")
+            self.vertoning_dict[f"{vertoning.datum}   {Vertoning.sloten[vertoning.timeslot]}"] = vertoning_id
+        self.vertoning_entry['values'] = temp_list2
+
+        # aanwezigen
+        tk.Label(self, text="Aantal aanwezigen").pack(side="top", pady=10)
+        self.aanwezigen_entry = tk.Entry(self, width=25)
+        self.aanwezigen_entry.pack()
+
+        tk.Button(self, text="Update", command=lambda: self.updateAanwezigen()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(StartFrame)).pack(pady=10)
+
+    def updateAanwezigen(self):
+        """
+        Update aantal aanwezige mensen in zaal.
+        :return: None
+        """
+        try:
+            aantal_aanwezigen = int(self.aanwezigen_entry.get())
+        except:
+            print("error: ongeldig aantal aanwezigen")
+            return
+
+        self.sys.updateAanwezigen(self.vertoning_dict[self.vertoning_entry.get()],
+                                  aantal_aanwezigen)
+        messagebox.showinfo("Info", "Aantal aanwezigen geüpdatet!")
 
 
 if __name__ == "__main__":

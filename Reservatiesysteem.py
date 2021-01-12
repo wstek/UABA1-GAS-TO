@@ -50,7 +50,6 @@ class Reservatiesysteem:
         :param scriptname: relatief pad/naam van het bestand
         :return: succes
         precondition: script met scriptname bestaat
-        todo error handling en uitbreiding vraag 2
         """
         file = open(scriptname, "r")
         commands = file.read().split("\n")
@@ -161,6 +160,9 @@ class Reservatiesysteem:
         else:
             # insert de vertoning in de lijst
             log_datum[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+
+        # Voeg de vertoning toe aan het film object
+        self.films.tableRetrieve(film_id)[0].vertoningen.append(vertoning_id)
 
     def addGebruiker(self, gebruiker_id, firstname, surname, email):
         """
@@ -332,3 +334,4 @@ class Reservatiesysteem:
 if __name__ == "__main__":
     sys = Reservatiesysteem()
     sys.readScript("test_script.txt")
+    print("ddd")
