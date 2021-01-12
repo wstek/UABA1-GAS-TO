@@ -26,7 +26,7 @@ class BSTTable:
     def load(self, map):
         return self.tabel.load(map)
 
-
+"""
 t = BSTTable()
 print(t.tableIsEmpty())
 print(t.tableInsert(createTreeItem(8, 8)))
@@ -42,3 +42,4 @@ print(t.tableDelete(0))
 print(t.save())
 print(t.tableDelete(10))
 print(t.save())
+"""

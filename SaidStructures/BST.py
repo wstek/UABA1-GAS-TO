@@ -143,6 +143,10 @@ class BST:
     def searchTreeRetrieve(self, key):
         if self.isEmpty is True:
             return (False)
+
+        if(self.root == None):
+            return (None, False)
+
         elif key == self.root.key:
             return (self.root.value, True)
         elif key < self.root.key:
@@ -206,7 +210,7 @@ class BST:
                             self.rightsubtree.root = Node()
                         self.rightsubtree.load(i)
 
-
+"""
 t = BST()
 print(t.isEmpty())
 print(t.searchTreeInsert(createTreeItem(8, 8)))
@@ -222,3 +226,4 @@ print(t.searchTreeDelete(0))
 print(t.save())
 print(t.searchTreeDelete(10))
 print(t.save())
+"""
