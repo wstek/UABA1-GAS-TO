@@ -148,25 +148,3 @@ class Queue:
             current_node = current_node.next
 
         return count
-
-if __name__ == "__main__":
-    q = Queue()
-    print(q.isEmpty())
-    print(q.getFront()[1])
-    print(q.dequeue()[1])
-    print(q.enqueue(2))
-    print(q.enqueue(4))
-    print(q.isEmpty())
-    print(q.dequeue()[0])
-    q.enqueue(5)
-    print(q.save())
-
-    q.load(['a', 'b', 'c'])
-    print(q.save())
-    print(q.dequeue()[0])
-    print(q.save())
-    print(q.getFront()[0])
-    print(q.save())
-    print(q.dequeue())
-    print(q.dequeue())
-    print(q.dequeue())

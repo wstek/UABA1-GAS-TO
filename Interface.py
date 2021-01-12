@@ -24,7 +24,7 @@ import os
 # INSTELLINGEN
 WIDTH = 800
 HEIGHT = 500
-auto_open_log = False
+auto_open_log = True
 
 
 class ReservatiesysteemInterface(tk.Tk):

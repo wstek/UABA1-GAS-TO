@@ -2,8 +2,6 @@
 ADT contract voor binaire zoekboom
 """
 
-from graphviz import Graph
-
 def createTreeItem(key,val=None):
     return key, val
 
@@ -484,87 +482,3 @@ class BST:
 
         # Print de searchkey van de huidige knoop
         FunctionType(current_node.key)
-
-    def toDot(self, print_value=False, current_node=None, dot=None, start=True):
-        """
-        Maakt een afbeelding van de binaire boom
-        :param print_value: True: print de waarden van de knopen False: print geen waarden
-        :return: None
-        """
-        # Zet in het begin de current_node gelijk aan die van de root
-        if start:
-            if self.root is None:
-                print("Dot: lege BST!")
-                return
-            current_node = self.root
-
-            # Maak een dot object
-            name = f"tree" # f"tree{self.id}"
-            print(name)
-            dot = Graph(comment=name, format='png', graph_attr={"splines": "false"})
-
-        if not print_value:
-            dot.node(str(current_node.key), str(current_node.key))
-        else:
-            dot.node(str(current_node.key), str(current_node.key) + "\n" + str(current_node.value))
-
-        # Doorloop de linkerdeelboom van de node
-        if current_node.left is not None:
-            self.toDot(print_value, current_node.left, dot, False)
-            dot.edge(str(current_node.key)+":sw", str(current_node.left.key))
-
-        # Doorloop de rechterdeelboom van de node
-        if current_node.right is not None:
-            self.toDot(print_value, current_node.right, dot, False)
-            dot.edge(str(current_node.key)+":se", str(current_node.right.key))
-
-        if start:
-            # Geef de binaire zoekboom weer
-            dot.render(f'test-output/{name}.gv', view=True)
-
-
-# Testing
-# if __name__ == "__main__":
-#     d = {'root': 14, 'value': "test", 'children': [
-#             {'root': 7, 'children': [
-#                 {'root': 5},
-#                 {'root': 9, 'value': "test2"}
-#             ]},
-#             {'root': 21, 'children': [
-#                 {'root': 16, 'children': [
-#                     None,
-#                     {'root': 17}
-#                 ]},
-#                 {'root': 23}]}
-#         ]}
-#
-#     boom = BST()
-#     boom.load(d)
-#     print(boom.traverse())
-#
-#     # for i in range(25, 31):
-#     #     boom.searchTreeInsert(createTreeItem(i, "new"))
-#
-#     boom.searchTreeDelete(27)
-#     boom.searchTreeInsert(createTreeItem(27))
-#
-#     boom.clear()
-#     boom.toDot()
-
-# Inginious testing
-if __name__ == "__main__":
-    t = BST()
-    print(t.isEmpty())
-    print(t.searchTreeInsert(createTreeItem(8,8)))
-    print(t.searchTreeInsert(createTreeItem(5,5)))
-    print(t.isEmpty())
-    print(t.searchTreeRetrieve(5)[0])
-    print(t.searchTreeRetrieve(5)[1])
-    t.inorderTraverse(print)
-    print(t.save())
-    t.load({'root': 10,'children':[{'root':5},None]})
-    t.searchTreeInsert(createTreeItem(15,15))
-    print(t.searchTreeDelete(0))
-    print(t.save())
-    print(t.searchTreeDelete(10))
-    print(t.save())

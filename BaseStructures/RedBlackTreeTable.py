@@ -2,7 +2,7 @@
 ADT contract voor tabel, rood-zwartboom implementatie
 """
 
-import WilliamStructures.RedBlackTree as RedBlackTree
+import BaseStructures.RedBlackTree as RedBlackTree
 
 def createTreeItem(key,val=None):
     return key, val
@@ -74,22 +74,3 @@ class RedBlackTreeTable:
         :return: None
         """
         self.RBT.inorderTraverse(FunctionType)
-
-if __name__ == "__main__":
-    t = RedBlackTreeTable()
-    print(t.tableIsEmpty())
-    print(t.tableInsert(createTreeItem(8,8)))
-    print(t.tableInsert(createTreeItem(5,5)))
-    print(t.tableInsert(createTreeItem(10,10)))
-    print(t.tableInsert(createTreeItem(15,15)))
-    print(t.tableIsEmpty())
-    print(t.tableRetrieve(5)[0])
-    print(t.tableRetrieve(5)[1])
-    t.traverseTable(print)
-    print(t.save())
-    t.load({'root': 8,'color': 'black','children':[{'root':5,'color': 'black'},{'root':10,'color': 'black'}]})
-    t.tableInsert(createTreeItem(15,15))
-    print(t.tableDelete(0))
-    print(t.save())
-    print(t.tableDelete(10))
-    print(t.save())

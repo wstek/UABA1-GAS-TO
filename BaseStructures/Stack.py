@@ -19,6 +19,7 @@ class Stack:
         Creëert een lege stack.
         """
         self.top = None
+        self.count = 0
 
     def load(self, StackLijst):
         """
@@ -33,6 +34,7 @@ class Stack:
         # Doorloop de elementen in de lijst en voeg die toe aan de stack
         prev_node = None
         for item in StackLijst:
+            self.count += 1
             current_node = StackNode(item)
             current_node.next = prev_node
             prev_node = current_node
@@ -94,6 +96,7 @@ class Stack:
             new_top = StackNode(newItem)
             new_top.next = self.top
             self.top = new_top
+        self.count += 1
         return True
 
     def pop(self):
@@ -113,6 +116,7 @@ class Stack:
         # Maak de volgende van de top de top
         self.top = self.top.next
 
+        self.count -= 1
         return value, True
 
     def getTop(self):
@@ -124,21 +128,9 @@ class Stack:
             return self.top.value, True
         return None, False
 
-if __name__ == "__main__":
-    s = Stack()
-    print(s.isEmpty())
-    print(s.getTop()[1])
-    print(s.pop()[1])
-    print(s.push(2))
-    print(s.push(4))
-    print(s.isEmpty())
-    print(s.pop()[0])
-    s.push(5)
-    print(s.save())
-
-    s.load(['a','b','c'])
-    print(s.save())
-    print(s.pop()[0])
-    print(s.save())
-    print(s.getTop()[0])
-    print(s.save())
+    def getLength(self):
+        """
+        Geeft het aantal items in de stack.
+        :return: int
+        """
+        return self.count

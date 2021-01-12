@@ -123,22 +123,3 @@ class Stack:
         if self.top is not None:
             return self.top.value, True
         return None, False
-
-if __name__ == "__main__":
-    s = Stack()
-    print(s.isEmpty())
-    print(s.getTop()[1])
-    print(s.pop()[1])
-    print(s.push(2))
-    print(s.push(4))
-    print(s.isEmpty())
-    print(s.pop()[0])
-    s.push(5)
-    print(s.save())
-
-    s.load(['a','b','c'])
-    print(s.save())
-    print(s.pop()[0])
-    print(s.save())
-    print(s.getTop()[0])
-    print(s.save())

@@ -2,7 +2,7 @@
 ADT contract voor tabel, ketting implementatie
 """
 
-from WilliamStructures.DubbelgelinkteCirulaireKetting import *
+from BaseStructures.DubbelgelinkteCirulaireKetting import *
 
 class LinkedChainTable():
     def __init__(self):
@@ -62,23 +62,3 @@ class LinkedChainTable():
         :return: tableItem (TableItemType), success (boolean)
         """
         return self.linked_chain.retrieve(searchKey)
-
-if __name__ == "__main__":
-    l = LinkedChainTable()
-    print(l.tableIsEmpty())
-    print(l.tableLength())
-    print(l.tableRetrieve(4)[1])
-    print(l.tableInsert(4,500))
-    print(l.tableIsEmpty())
-    print(l.tableInsert(1,500))
-    print(l.tableRetrieve(1)[0])
-    print(l.tableRetrieve(1)[1])
-    print(l.save())
-    print(l.tableInsert(1,600))
-    print(l.save())
-    l.load([10,-9,15])
-    l.tableInsert(3,20)
-    print(l.tableDelete(0))
-    print(l.save())
-    print(l.tableDelete(10))
-    print(l.save())

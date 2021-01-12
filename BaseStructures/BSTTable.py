@@ -2,7 +2,7 @@
 ADT contract voor tabel, binaire zoekboom implementatie
 """
 
-import WilliamStructures.BST as BST
+import BaseStructures.BST as BST
 
 
 def createTreeItem(key,val=None):
