@@ -14,6 +14,7 @@ class Stack:
         maakt een stack aan
         """
         self.top = None
+        self.count = 0
 
     def isEmpty(self):  # {query}
         """
@@ -40,6 +41,7 @@ class Stack:
             newNode.next = None
             self.top = newNode
             if self.top == newNode and not self.top.next:
+                self.count += 1
                 return True
             else:
                 return False
@@ -49,6 +51,7 @@ class Stack:
             newNode.next = self.top
             self.top = newNode
             if self.top == newNode and self.top.next == oldTop:
+                self.count += 1
                 return True
             else:
                 return False
@@ -66,6 +69,7 @@ class Stack:
             toDelete = self.top
             self.top = toDelete.next
             if self.top != toDelete:
+                self.count -= 1
                 return toDelete.item, True
             else:
                 return None, False
@@ -113,5 +117,6 @@ class Stack:
             self.pop()
         # push de elementen in de queue
         for i in range(0, len(stacklist)):
+            self.count += 1
             self.push(stacklist[i])
 
