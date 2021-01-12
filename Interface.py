@@ -5,7 +5,6 @@ gebruikte bronnen:
 https://likegeeks.com/python-gui-examples-tkinter-tutorial/
 https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 https://riptutorial.com/tkinter/example/29713/grid--
-https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 """
 import tkinter as tk
 from tkinter import filedialog
@@ -147,13 +146,13 @@ class StartFrame(tk.Frame):
 
         tk.Button(self, text="Data", command=lambda: parent.switchFrame(DataFrame)).pack(pady=15)
 
-        self.time_entry = tk.Entry(self, width=10)
+        self.time_entry = tk.Entry(self, width=25)
         self.time_entry.pack()
-        tk.Button(self, text="Zet tijd (uu:mm)", command=lambda: self.setTime()).pack(pady=5)
+        tk.Button(self, text="Verander tijd (uu:mm)", command=lambda: self.setTime()).pack(pady=5)
 
-        self.date_entry = tk.Entry(self, width=10)
+        self.date_entry = tk.Entry(self, width=25)
         self.date_entry.pack()
-        tk.Button(self, text="Zet datum (dd/mm/yy)", command=lambda: self.setDate()).pack(pady=5)
+        tk.Button(self, text="Verander datum (dd/mm/yy)", command=lambda: self.setDate()).pack(pady=5)
 
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
 
@@ -272,11 +271,11 @@ class AddZaalFrame(tk.Frame):
         self.date = date
 
         tk.Label(self, text="Zaalnummer").pack(side="top", pady=10)
-        self.zaalnummer_entry = tk.Entry(self, width=10)
+        self.zaalnummer_entry = tk.Entry(self, width=25)
         self.zaalnummer_entry.pack()
 
         tk.Label(self, text="Aantal plaatsen").pack(side="top", pady=10)
-        self.seats_entry = tk.Entry(self, width=10)
+        self.seats_entry = tk.Entry(self, width=25)
         self.seats_entry.pack()
 
         tk.Button(self, text="Toevoegen", command=lambda: self.addZaal()).pack(pady=10)
@@ -338,11 +337,11 @@ class AddFilmFrame(tk.Frame):
         self.date = date
 
         tk.Label(self, text="Titel").pack(side="top", pady=10)
-        self.titel_entry = tk.Entry(self, width=10)
+        self.titel_entry = tk.Entry(self, width=25)
         self.titel_entry.pack()
 
         tk.Label(self, text="Rating").pack(side="top", pady=10)
-        self.rating_entry = tk.Entry(self, width=10)
+        self.rating_entry = tk.Entry(self, width=25)
         self.rating_entry.pack()
 
         tk.Button(self, text="Toevoegen", command=lambda: self.addFilm()).pack(pady=10)
@@ -438,7 +437,7 @@ class AddVertoningFrame(tk.Frame):
 
         # datum tekstbox
         tk.Label(self, text="Datum (yyyy-mm-dd)").pack(side="top", pady=10)
-        self.date_entry = tk.Entry(self, width=10)
+        self.date_entry = tk.Entry(self, width=25)
         self.date_entry.pack()
 
         tk.Button(self, text="Toevoegen", command=lambda: self.addVertoning()).pack(pady=10)
@@ -452,7 +451,7 @@ class AddVertoningFrame(tk.Frame):
         # genereer een id voor de vertoning
         vertoning_id = self.sys.vertoningen.tableLength() + 1
         while True:
-            if not self.sys.films.tableRetrieve(vertoning_id)[1]:
+            if not self.sys.vertoningen.tableRetrieve(vertoning_id)[1]:
                 break
             vertoning_id += 1
 
@@ -472,7 +471,64 @@ class GebruikersFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
+        self.gebruikers_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
+        self.gebruikers_lijst.pack(pady=10)
+        self.updateGebruikersLijst()
+        tk.Button(self, text="Gebruiker toevoegen", command=lambda: parent.switchFrame(AddGebruikerFrame)).pack(pady=10)
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
+
+    def updateGebruikersLijst(self):
+        """
+        Toon alle gebruikers op het scherm
+        :return: None
+        """
+        temp_list = []
+        self.sys.gebruikers.traverseTable(temp_list.append)
+        self.gebruikers_lijst.insert(tk.INSERT, "id\tvoornaam\t\tachternaam\t\temail")
+        for gebruiker_id in temp_list:
+            gebruiker = self.sys.gebruikers.tableRetrieve(gebruiker_id)[0]
+            self.gebruikers_lijst.insert(tk.INSERT, f"\n{gebruiker_id}\t{gebruiker.firstname}\t\t" +
+                                         f"{gebruiker.surname}\t\t{gebruiker.email}")
+
+        self.gebruikers_lijst.configure(state="disabled")
+
+
+class AddGebruikerFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        tk.Label(self, text="Voornaam").pack(side="top", pady=10)
+        self.firstname_entry = tk.Entry(self, width=25)
+        self.firstname_entry.pack()
+
+        tk.Label(self, text="Achternaam").pack(side="top", pady=10)
+        self.surname_entry = tk.Entry(self, width=25)
+        self.surname_entry.pack()
+
+        tk.Label(self, text="Email").pack(side="top", pady=10)
+        self.email_entry = tk.Entry(self, width=25)
+        self.email_entry.pack()
+
+        tk.Button(self, text="Toevoegen", command=lambda: self.addGebruiker()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(GebruikersFrame)).pack(pady=10)
+
+    def addGebruiker(self):
+        """
+        Voegt een gebruiker toe aan het systeem.
+        :return: None
+        """
+        # genereer een id voor de gebruiker
+        gebruiker_id = self.sys.gebruikers.tableLength() + 1
+        while True:
+            if not self.sys.gebruikers.tableRetrieve(gebruiker_id)[1]:
+                break
+            gebruiker_id += 1
+            
+        self.sys.addGebruiker(gebruiker_id, self.firstname_entry.get(), self.surname_entry.get(), self.email_entry.get())
+        messagebox.showinfo("Info", "Gebruiker toegevoegd!")
 
 
 class ReservatiesFrame(tk.Frame):
