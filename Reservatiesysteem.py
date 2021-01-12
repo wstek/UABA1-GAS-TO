@@ -12,6 +12,9 @@ Specifieke structuren:
 -   DubbelgelinkteCirulaireKettingTable     - alle 4
 -   Stack (voor tickets in vertoning)       - alle 4
 -   Queue (reservaties)                     - alle 4
+
+TijdSloten:
+-   Kunnen worden aangepast in vertoning
 """
 
 # add (name+s)Structures. om een andere structuur te gebruiken example: "from SamStructures.BSTTable import *"
