@@ -3,6 +3,8 @@ Made By: William, Said, Stein, Sam
 Date: 14/01/2020
 ADT voor reservatiesysteem
 
+Logbestanden worden in /logs genereerd.
+
 Mogelijke Structuren:
 -   BSTTable                                - alle 4
 -   RedBlackTreeTable                       - Sam & William
@@ -337,4 +339,3 @@ class Reservatiesysteem:
 if __name__ == "__main__":
     sys = Reservatiesysteem()
     sys.readScript("test_script.txt")
-    print("ddd")

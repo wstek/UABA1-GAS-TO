@@ -1,5 +1,9 @@
 """
-Interface voor Reservatiesysteem.py
+GUI voor Reservatiesysteem.py
+
+Bevat alle functionaliteit van reservatiesysteem.
+Er is niet zo veel aandacht besteed aan ongeldige gebruikersinvoer, error handling en de lay-out van het programma.
+Logbestanden worden in /logs genereerd.
 
 gebruikte bronnen:
 https://likegeeks.com/python-gui-examples-tkinter-tutorial/
@@ -33,7 +37,7 @@ class ReservatiesysteemInterface(tk.Tk):
         # reservatiesysteem
         self.sys = Reservatiesysteem()
         self.time = [18, 0]
-        self.date = [11, 1, 2021]
+        self.date = [1, 1, 2021]
 
         # zet de windowsize en titel
         self.geometry(f"{WIDTH}x{HEIGHT}")
