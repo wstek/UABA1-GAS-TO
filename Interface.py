@@ -11,13 +11,15 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import scrolledtext
+from tkinter.ttk import Combobox
 from Reservatiesysteem import Reservatiesysteem
+from Vertoning import Vertoning
 from copy import deepcopy
 import webbrowser
 import os
 
 # INSTELLINGEN
-WIDTH = 500
+WIDTH = 800
 HEIGHT = 500
 auto_open_log = False
 
@@ -142,17 +144,23 @@ class StartFrame(tk.Frame):
         self.date = date
         tk.Label(self, text="Reservatiesysteem",
                  font=("Arial Bold", 30)).pack(side="top", fill="x", pady=10)
+
         tk.Button(self, text="Data", command=lambda: parent.switchFrame(DataFrame)).pack(pady=15)
+
         self.time_entry = tk.Entry(self, width=10)
         self.time_entry.pack()
-        tk.Button(self, text="Zet tijd", command=lambda: self.setTime()).pack(pady=5)
+        tk.Button(self, text="Zet tijd (uu:mm)", command=lambda: self.setTime()).pack(pady=5)
+
         self.date_entry = tk.Entry(self, width=10)
         self.date_entry.pack()
-        tk.Button(self, text="Zet datum", command=lambda: self.setDate()).pack(pady=5)
+        tk.Button(self, text="Zet datum (dd/mm/yy)", command=lambda: self.setDate()).pack(pady=5)
+
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
+
         tk.Label(self, text="Huidige tijd:").pack(side="top")
         self.time_label = tk.Label(self, text=f"{self.time[0]}:{self.time[1]}")
         self.time_label.pack(side="top", pady=2)
+
         tk.Label(self, text="Huidige datum:").pack(side="top", pady=2)
         self.date_label = tk.Label(self, text=f"{self.date[0]}/{self.date[1]}/{self.date[2]}")
         self.date_label.pack(side="top")
@@ -235,7 +243,7 @@ class ZalenFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
-        self.zalen_lijst = scrolledtext.ScrolledText(self, width=50, height=20)
+        self.zalen_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
         self.zalen_lijst.pack(pady=10)
         self.updateZalenLijst()
         tk.Button(self, text="Zaal toevoegen", command=lambda: parent.switchFrame(AddZaalFrame)).pack(pady=10)
@@ -301,7 +309,7 @@ class FilmsFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
-        self.films_lijst = scrolledtext.ScrolledText(self, width=50, height=20)
+        self.films_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
         self.films_lijst.pack(pady=10)
         self.updateFilmsLijst()
         tk.Button(self, text="Film toevoegen", command=lambda: parent.switchFrame(AddFilmFrame)).pack(pady=10)
@@ -370,7 +378,92 @@ class VertoningenFrame(tk.Frame):
         self.sys = sys
         self.time = time
         self.date = date
+        self.vertoningen_lijst = scrolledtext.ScrolledText(self, width=80, height=20)
+        self.vertoningen_lijst.pack(pady=10)
+        self.updateVertoningenLijst()
+        tk.Button(self, text="Vertoning toevoegen", command=lambda: parent.switchFrame(AddVertoningFrame)).pack(pady=10)
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
+
+    def updateVertoningenLijst(self):
+        """
+        Toon alle vertoningen op het scherm
+        :return: None
+        """
+        temp_list = []
+        self.sys.vertoningen.traverseTable(temp_list.append)
+        self.vertoningen_lijst.insert(tk.INSERT, "id\tzaal\tfilm\tslot\tdatum\t\tplaatsen " +
+                                      "\taanwezig\tgestart")
+        for vertoning_id in temp_list:
+            vert = self.sys.vertoningen.tableRetrieve(vertoning_id)[0]
+            self.vertoningen_lijst.insert(tk.INSERT, f"\n{vertoning_id}\t{vert.zaalnummer}\t{vert.film_id}" +
+                                          f"\t{vert.sloten[vert.timeslot]}\t{vert.datum}" +
+                                          f"\t\t{vert.aantal_vrije_plaatsen}\t  {vert.aanwezig}\t   {vert.gestart}")
+
+        self.vertoningen_lijst.configure(state="disabled")
+
+
+class AddVertoningFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        # zaal combobox
+        tk.Label(self, text="Zaal").pack(side="top", pady=10)
+        self.zaal_entry = Combobox(self)
+        temp_list = []
+        self.sys.zalen.traverseTable(temp_list.append)
+        self.zaal_entry['values'] = temp_list
+        self.zaal_entry.pack()
+
+        # film combobox
+        tk.Label(self, text="Film").pack(side="top", pady=10)
+        self.film_entry = Combobox(self)
+        temp_list = []
+        self.sys.films.traverseTable(temp_list.append)
+        temp_list2 = []
+        self.film_dict = {}
+        for film_id in temp_list:
+            temp_list2.append(self.sys.films.tableRetrieve(film_id)[0].titel)
+            self.film_dict[self.sys.films.tableRetrieve(film_id)[0].titel] = film_id
+        self.film_entry['values'] = temp_list2
+        self.film_entry.pack()
+
+        # slot combobox
+        tk.Label(self, text="slot").pack(side="top", pady=10)
+        self.slot_entry = Combobox(self)
+        self.slot_entry['values'] = Vertoning.sloten
+        self.slot_entry.pack()
+
+        # datum tekstbox
+        tk.Label(self, text="Datum (yyyy-mm-dd)").pack(side="top", pady=10)
+        self.date_entry = tk.Entry(self, width=10)
+        self.date_entry.pack()
+
+        tk.Button(self, text="Toevoegen", command=lambda: self.addVertoning()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(VertoningenFrame)).pack(pady=10)
+
+    def addVertoning(self):
+        """
+        Voegt een vertoning toe aan het systeem.
+        :return: None
+        """
+        # genereer een id voor de vertoning
+        vertoning_id = self.sys.vertoningen.tableLength() + 1
+        while True:
+            if not self.sys.films.tableRetrieve(vertoning_id)[1]:
+                break
+            vertoning_id += 1
+
+        vert_zaal = int(self.zaal_entry.get())
+        vert_film = self.film_dict[self.film_entry.get()]
+        vert_slot = Vertoning.sloten.index(self.slot_entry.get())
+        vert_datum = self.date_entry.get()
+        vert_plaatsen = self.sys.zalen.tableRetrieve(vert_zaal)[0].seats
+
+        self.sys.addVertoning(vertoning_id, vert_zaal, vert_film, vert_slot, vert_datum, vert_plaatsen)
+        messagebox.showinfo("Info", "Vertoning toegevoegd!")
 
 
 class GebruikersFrame(tk.Frame):

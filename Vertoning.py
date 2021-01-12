@@ -28,7 +28,7 @@ class Vertoning:
         self.zaalnummer = zaalnummer
         self.film_id = film_id
         self.timeslot = timeslot
-        self.datum_vertoning = datum_vertoning
+        self.datum = datum_vertoning
         self.aantal_vrije_plaatsen = aantal_vrije_plaatsen
         self.verwachte_personen = Stack()
         self.aanwezig = 0

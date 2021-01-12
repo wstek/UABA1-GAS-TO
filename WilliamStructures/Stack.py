@@ -2,6 +2,7 @@
 ADT contract voor stack
 """
 
+
 class StackNode:
     def __init__(self, value=None):
         """
@@ -10,6 +11,7 @@ class StackNode:
         """
         self.value = value
         self.next = None
+
 
 class Stack:
     def __init__(self):

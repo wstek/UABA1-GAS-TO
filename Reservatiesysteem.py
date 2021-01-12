@@ -141,7 +141,7 @@ class Reservatiesysteem:
         self.vertoningen.tableInsert(createTreeItem(vertoning_id, nieuwe_vertoning))
 
         # Vertoningen worden in self.log gestoken om dat later makkelijker in een tabel te zetten
-        log_datum = self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0]
+        log_datum = self.log.tableRetrieve(nieuwe_vertoning.datum)[0]
 
         # als de log op die datum leeg is
         # voeg dan een dictionary met zaal_id en een lijst met None #sloten keer
@@ -151,12 +151,12 @@ class Reservatiesysteem:
                 temp_list.append(None)
 
             self.log.tableInsert(createTreeItem(
-                nieuwe_vertoning.datum_vertoning,
+                nieuwe_vertoning.datum,
                 {nieuwe_vertoning.zaalnummer: temp_list}
             ))
 
             # insert de vertoning in de lijst
-            self.log.tableRetrieve(nieuwe_vertoning.datum_vertoning)[0][nieuwe_vertoning.zaalnummer][
+            self.log.tableRetrieve(nieuwe_vertoning.datum)[0][nieuwe_vertoning.zaalnummer][
                 nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
         else:
             # insert de vertoning in de lijst
