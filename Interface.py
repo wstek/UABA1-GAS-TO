@@ -230,7 +230,7 @@ class ZalenFrame(tk.Frame):
         self.zalen_lijst = scrolledtext.ScrolledText(self, width=50, height=20)
         self.zalen_lijst.pack(pady=10)
         self.updateZalenLijst()
-        tk.Button(self, text="Voeg zaal toe", command=None).pack(pady=10)
+        tk.Button(self, text="Zaal toevoegen", command=lambda: parent.switchFrame(AddZaalFrame)).pack(pady=10)
         tk.Button(self, text="Terug", command=lambda: parent.switchFrame(DataFrame)).pack(pady=10)
 
     def updateZalenLijst(self):
@@ -246,6 +246,45 @@ class ZalenFrame(tk.Frame):
             self.zalen_lijst.insert(tk.INSERT, f"{zaal_nummer}\t    {zaal.seats}\n")
 
         self.zalen_lijst.configure(state="disabled")
+
+
+class AddZaalFrame(tk.Frame):
+    def __init__(self, parent, sys, time, date):
+        tk.Frame.__init__(self, parent)
+        self.sys = sys
+        self.time = time
+        self.date = date
+
+        tk.Label(self, text="Zaalnummer").pack(side="top", pady=10)
+        self.zaalnummer_entry = tk.Entry(self, width=10)
+        self.zaalnummer_entry.pack()
+
+        tk.Label(self, text="Aantal plaatsen").pack(side="top", pady=10)
+        self.seats_entry = tk.Entry(self, width=10)
+        self.seats_entry.pack()
+
+        tk.Button(self, text="Toevoegen", command=lambda: self.addZaal()).pack(pady=10)
+        tk.Button(self, text="Terug", command=lambda: parent.switchFrame(ZalenFrame)).pack(pady=10)
+
+    def addZaal(self):
+        """
+        Voegt een zaal toe aan het systeem.
+        :return: None
+        """
+        try:
+            zaalnummer = int(self.zaalnummer_entry.get())
+        except:
+            print("error: ongeldige zaalnummer")
+            return
+
+        try:
+            seats = int(self.seats_entry.get())
+        except:
+            print("error: ongeldige seats")
+            return
+
+        self.sys.addZaal(zaalnummer, seats)
+        messagebox.showinfo("Info", "Zaal toegevoegd!")
 
 
 class FilmsFrame(tk.Frame):
