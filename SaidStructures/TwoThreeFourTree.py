@@ -24,7 +24,7 @@ class TwoThreeFourTree:
     def retrieveItem(self, key):
         "Deze methode retrieved een value van de node met de keywaarde key"
         if self.isEmpty():  # We kijken eerst of de tree leeg is, als dit het geval is returnen we false
-            return False
+            return (None, False)
         # We checken dan steeds de lengte van de huidige node
         if len(self.items) == 3:  # We kijken hier naar het geval van wanneer de lengte van de node 3 is
             # Als een van onze keywaardes van de node gelijk is aan de key, returnen we de value hiervan
@@ -46,7 +46,7 @@ class TwoThreeFourTree:
                     else:
                         return self.rightsubtree.retrieveItem(key)
                 else:
-                    return False
+                    return (None, False)
         elif len(self.items) == 2:  # We kijken hier naar het geval van wanneer de lengte van de node 2 is
             # Als een van onze keywaardes van de node gelijk is aan de key, returnen we de value hiervan
             if key == self.items[0].key:
@@ -63,7 +63,7 @@ class TwoThreeFourTree:
                     else:
                         return self.rightsubtree.retrieveItem(key)
                 else:
-                    return False
+                    return (None, False)
         # We kijken hier naar het geval van wanneer de lengte van de node 2 is
         else:
             # Als onze keywaarde van de node gelijk is aan de key, returnen we de value hiervan
@@ -76,7 +76,7 @@ class TwoThreeFourTree:
                     else:
                         return self.rightsubtree.retrieveItem(key)
                 else:
-                    return False
+                    return (None, False)
 
     def split(self):
         "Deze functie split een overvolle knoop op"
