@@ -55,9 +55,13 @@ class ReservatiesysteemInterface(tk.Tk):
         """
         Vernietigt de huidige frame en vervangt het met een andere.
         """
-        new_frame = frame_class(self, self.sys, self.time, self.date)
         if self._frame is not None:
+            self.sys = self._frame.sys
+            self.time = self._frame.time
+            self.date = self._frame.date
             self._frame.destroy()
+
+        new_frame = frame_class(self, self.sys, self.time, self.date)
         self._frame = new_frame
         self._frame.pack()
 
@@ -137,9 +141,11 @@ class StartFrame(tk.Frame):
         tk.Label(self, text="Reservatiesysteem",
                  font=("Arial Bold", 30)).pack(side="top", fill="x", pady=10)
         tk.Button(self, text="Init", command=lambda: parent.switchFrame(InitFrame)).pack(pady=10)
-        self.time_entry = tk.Entry(self, width=10).pack()
+        self.time_entry = tk.Entry(self, width=10)
+        self.time_entry.pack()
         tk.Button(self, text="Zet tijd", command=lambda: self.setTime()).pack(pady=10)
-        self.date_entry = tk.Entry(self, width=10).pack()
+        self.date_entry = tk.Entry(self, width=10)
+        self.date_entry.pack()
         tk.Button(self, text="Zet datum", command=lambda: self.setDate()).pack(pady=10)
         tk.Button(self, text="Maak log", command=lambda: self.createLog()).pack(pady=10)
 
@@ -147,7 +153,6 @@ class StartFrame(tk.Frame):
         """
         Creëert een log en opent het in de standaard webbrowser.
         """
-        # todo datum/tijd systeem implementeren
         log_succes = self.sys.createLog(f"{self.time[0]}:{self.time[1]}",
                                         f"{self.date[2]}-{self.date[1]}-{self.date[0]}")
 
@@ -157,14 +162,34 @@ class StartFrame(tk.Frame):
             print(filename)
             webbrowser.open_new_tab(filename)
         elif log_succes[0] is None:
-            messagebox.showinfo("Error", f"Geen vertoningen op {self.date[2]}-{self.date[1]}-{self.date[0]}",
+            messagebox.showinfo("Error", f"Geen vertoningen op {self.date[0]}/{self.date[1]}/{self.date[2]}",
                                 icon='warning')
 
     def setTime(self):
-        print(self.time_entry.get())
+        """
+        Verandert de tijd van het systeem naar input van de gebruiker.
+        :return: None
+        """
+        res = self.time_entry.get()
+        try:
+            self.time = res.split(":")
+            self.time = [int(item) for item in self.time]
+            print(self.time)
+        except:
+            messagebox.showinfo("Error", f"Geen geldige tijd", icon='warning')
 
     def setDate(self):
-        print(self.date_entry.get())
+        """
+        Verandert de datum van het systeem naar input van de gebruiker.
+        :return: None
+        """
+        res = self.date_entry.get()
+        try:
+            self.date = res.split("/")
+            self.date = [int(item) for item in self.date]
+            print(self.date)
+        except:
+            messagebox.showinfo("Error", f"Geen geldige datum", icon='warning')
 
 
 class InitFrame(tk.Frame):
