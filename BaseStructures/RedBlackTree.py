@@ -2,11 +2,6 @@
 ADT contract voor rood-zwartboom
 """
 
-import time
-from graphviz import Graph
-from random import shuffle
-import os, shutil
-
 def createTreeItem(key,val=None):
     """
     De items worden in een tuple gestoken en die worden in de insertmethode van de rood-zwartboom terug uitgepakt.
@@ -1043,50 +1038,6 @@ class RedBlackTree:
             else:
                 return blackcountl
 
-    def toDot(self, v=False, print_value=False, current_node=None, dot=None, start=True):
-        """
-        Maakt een afbeelding van de rood-zwartboom
-        :param print_value: True: print de waarden van de nodes False: print geen waarden
-        :return: None
-        """
-        # Zet in het begin de current_node gelijk aan die van de root
-        if start:
-            if self.root is None:
-                print("Dot: lege BST!")
-                return
-            current_node = self.root
-
-            # Maak een dot object
-            name = f"redblacktree{RedBlackTree.counter}" # f"tree{self.id}"
-            RedBlackTree.counter += 1
-            dot = Graph(comment=name, format='png', graph_attr={"splines": "false"})
-
-        # Maak een node met de kleur van de node
-        if current_node.color == "red":
-            if not print_value:
-                dot.node(str(current_node.key), str(current_node.key), color="red")
-            else:
-                dot.node(str(current_node.key), str(current_node.key) + "\n" + str(current_node.value), color="red")
-        else:
-            if not print_value:
-                dot.node(str(current_node.key), str(current_node.key))
-            else:
-                dot.node(str(current_node.key), str(current_node.key) + "\n" + str(current_node.value))
-
-        # Doorloop de linkerdeelboom van de node
-        if current_node.left != self.NULLNode:
-            self.toDot(v, print_value, current_node.left, dot, False)
-            dot.edge(str(current_node.key)+":sw", str(current_node.left.key))
-
-        # Doorloop de rechterdeelboom van de node
-        if current_node.right != self.NULLNode:
-            self.toDot(v, print_value, current_node.right, dot, False)
-            dot.edge(str(current_node.key)+":se", str(current_node.right.key))
-
-        if start:
-            # Slaag de rood-zwartboom op en geef die weer als gevraagd is
-            dot.render(f'test-output/{name}.gv', view=v)
-
 
 # if __name__ == "__main__":
 #     t = RedBlackTree()
@@ -1143,9 +1094,9 @@ class RedBlackTree:
     # boom.insertItem(createTreeItem(37, None))
     # boom.insertItem(createTreeItem(17, None))
 
-    boom.toDot(True)
-
-    print(time.time() - start)
+    # boom.toDot(True)
+    #
+    # print(time.time() - start)
 
     # # Demo12 splitsen van 4-knoop met 3-knoop ouder case 3
     #

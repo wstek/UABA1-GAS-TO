@@ -1094,10 +1094,6 @@ class RedBlackTree:
     # boom.insertItem(createTreeItem(37, None))
     # boom.insertItem(createTreeItem(17, None))
 
-    boom.toDot(True)
-
-    print(time.time() - start)
-
     # # Demo12 splitsen van 4-knoop met 3-knoop ouder case 3
     #
     # d10 = {'root': 13, 'color': "black", 'children': [

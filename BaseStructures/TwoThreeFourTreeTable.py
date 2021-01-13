@@ -1,4 +1,4 @@
-from BaseStructures.TwoThreeFourTree import *
+from SaidStructures.TwoThreeFourTree import *
 
 
 class TwoThreeFourTreeTable:
@@ -15,7 +15,7 @@ class TwoThreeFourTreeTable:
         return self.tabel.retrieveItem(key)
 
     def traverseTable(self, Functie):
-        return self.tabel.inorderTraverse(self, Functie)
+        return self.tabel.inorderTraverse(Functie)
 
     def save(self):
         return self.tabel.save()
