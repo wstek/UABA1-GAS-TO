@@ -2,11 +2,6 @@
 ADT contract voor rood-zwartboom
 """
 
-import time
-from graphviz import Graph
-from random import shuffle
-import os, shutil
-
 def createTreeItem(key,val=None):
     """
     De items worden in een tuple gestoken en die worden in de insertmethode van de rood-zwartboom terug uitgepakt.
@@ -1043,50 +1038,6 @@ class RedBlackTree:
             else:
                 return blackcountl
 
-    def toDot(self, v=False, print_value=False, current_node=None, dot=None, start=True):
-        """
-        Maakt een afbeelding van de rood-zwartboom
-        :param print_value: True: print de waarden van de nodes False: print geen waarden
-        :return: None
-        """
-        # Zet in het begin de current_node gelijk aan die van de root
-        if start:
-            if self.root is None:
-                print("Dot: lege BST!")
-                return
-            current_node = self.root
-
-            # Maak een dot object
-            name = f"redblacktree{RedBlackTree.counter}" # f"tree{self.id}"
-            RedBlackTree.counter += 1
-            dot = Graph(comment=name, format='png', graph_attr={"splines": "false"})
-
-        # Maak een node met de kleur van de node
-        if current_node.color == "red":
-            if not print_value:
-                dot.node(str(current_node.key), str(current_node.key), color="red")
-            else:
-                dot.node(str(current_node.key), str(current_node.key) + "\n" + str(current_node.value), color="red")
-        else:
-            if not print_value:
-                dot.node(str(current_node.key), str(current_node.key))
-            else:
-                dot.node(str(current_node.key), str(current_node.key) + "\n" + str(current_node.value))
-
-        # Doorloop de linkerdeelboom van de node
-        if current_node.left != self.NULLNode:
-            self.toDot(v, print_value, current_node.left, dot, False)
-            dot.edge(str(current_node.key)+":sw", str(current_node.left.key))
-
-        # Doorloop de rechterdeelboom van de node
-        if current_node.right != self.NULLNode:
-            self.toDot(v, print_value, current_node.right, dot, False)
-            dot.edge(str(current_node.key)+":se", str(current_node.right.key))
-
-        if start:
-            # Slaag de rood-zwartboom op en geef die weer als gevraagd is
-            dot.render(f'test-output/{name}.gv', view=v)
-
 
 # if __name__ == "__main__":
 #     t = RedBlackTree()
@@ -1106,32 +1057,32 @@ class RedBlackTree:
 #     print(t.save())
 #     print(t.deleteItem(10))
 #     print(t.save())
-
-if __name__ == "__main__":
-    folder = './test-output'
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
-
-    boom = RedBlackTree()
-
-    # l = list(range(0, 50))
-    # shuffle(l)
-    l = [37, 40, 8, 46, 42, 36, 18, 25, 47, 33, 45, 28, 39, 12, 9, 38, 24, 2, 15, 34, 30, 29, 44, 1, 5, 3, 23, 19, 43, 4, 17, 22, 49, 48, 16, 21, 13, 41, 27, 35, 26, 14]
-    print(l)
-    start = time.time()
-    for i in l:
-        item = createTreeItem(i)
-        boom.insertItem(item)
-        # boom.toDot()
-        # print(f"{i} has been inserted")
-        # boom.check()
+#
+# if __name__ == "__main__":
+#     folder = './test-output'
+#     for filename in os.listdir(folder):
+#         file_path = os.path.join(folder, filename)
+#         try:
+#             if os.path.isfile(file_path) or os.path.islink(file_path):
+#                 os.unlink(file_path)
+#             elif os.path.isdir(file_path):
+#                 shutil.rmtree(file_path)
+#         except Exception as e:
+#             print('Failed to delete %s. Reason: %s' % (file_path, e))
+#
+#     boom = RedBlackTree()
+#
+#     # l = list(range(0, 50))
+#     # shuffle(l)
+#     l = [37, 40, 8, 46, 42, 36, 18, 25, 47, 33, 45, 28, 39, 12, 9, 38, 24, 2, 15, 34, 30, 29, 44, 1, 5, 3, 23, 19, 43, 4, 17, 22, 49, 48, 16, 21, 13, 41, 27, 35, 26, 14]
+#     print(l)
+#     start = time.time()
+#     for i in l:
+#         item = createTreeItem(i)
+#         boom.insertItem(item)
+#         # boom.toDot()
+#         # print(f"{i} has been inserted")
+#         # boom.check()
 
     # boom.toDot(False)
     # boom.deleteItem(2)

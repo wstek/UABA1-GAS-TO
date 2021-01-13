@@ -1107,31 +1107,31 @@ class RedBlackTree:
 #     print(t.deleteItem(10))
 #     print(t.save())
 
-if __name__ == "__main__":
-    folder = './test-output'
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
-
-    boom = RedBlackTree()
-
-    # l = list(range(0, 50))
-    # shuffle(l)
-    l = [37, 40, 8, 46, 42, 36, 18, 25, 47, 33, 45, 28, 39, 12, 9, 38, 24, 2, 15, 34, 30, 29, 44, 1, 5, 3, 23, 19, 43, 4, 17, 22, 49, 48, 16, 21, 13, 41, 27, 35, 26, 14]
-    print(l)
-    start = time.time()
-    for i in l:
-        item = createTreeItem(i)
-        boom.insertItem(item)
-        # boom.toDot()
-        # print(f"{i} has been inserted")
-        # boom.check()
+# if __name__ == "__main__":
+#     folder = './test-output'
+#     for filename in os.listdir(folder):
+#         file_path = os.path.join(folder, filename)
+#         try:
+#             if os.path.isfile(file_path) or os.path.islink(file_path):
+#                 os.unlink(file_path)
+#             elif os.path.isdir(file_path):
+#                 shutil.rmtree(file_path)
+#         except Exception as e:
+#             print('Failed to delete %s. Reason: %s' % (file_path, e))
+#
+#     boom = RedBlackTree()
+#
+#     # l = list(range(0, 50))
+#     # shuffle(l)
+#     l = [37, 40, 8, 46, 42, 36, 18, 25, 47, 33, 45, 28, 39, 12, 9, 38, 24, 2, 15, 34, 30, 29, 44, 1, 5, 3, 23, 19, 43, 4, 17, 22, 49, 48, 16, 21, 13, 41, 27, 35, 26, 14]
+#     print(l)
+#     start = time.time()
+#     for i in l:
+#         item = createTreeItem(i)
+#         boom.insertItem(item)
+#         # boom.toDot()
+#         # print(f"{i} has been inserted")
+#         # boom.check()
 
     # boom.toDot(False)
     # boom.deleteItem(2)
