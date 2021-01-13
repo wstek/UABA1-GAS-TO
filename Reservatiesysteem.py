@@ -28,6 +28,7 @@ from WilliamStructures.BSTTable import *
 from WilliamStructures.Queue import Queue
 import shlex
 import os
+from copy import deepcopy
 
 
 class Reservatiesysteem:
@@ -159,6 +160,18 @@ class Reservatiesysteem:
             # insert de vertoning in de lijst
             self.log.tableRetrieve(nieuwe_vertoning.datum)[0][nieuwe_vertoning.zaalnummer][
                 nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
+
+        # als er een log is op die datum maar de zaalnummer is niet in de dictionary
+        elif nieuwe_vertoning.zaalnummer not in log_datum:
+            temp_list = []
+            for slot in Vertoning.sloten:
+                temp_list.append(None)
+
+            # insert de vertoning in de lijst
+            log_datum[nieuwe_vertoning.zaalnummer] = temp_list
+
+            # insert de vertoning in de lijst
+            log_datum[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
         else:
             # insert de vertoning in de lijst
             log_datum[nieuwe_vertoning.zaalnummer][nieuwe_vertoning.timeslot - 1] = nieuwe_vertoning
@@ -225,6 +238,84 @@ class Reservatiesysteem:
             vertoning.gestart = True
             print(f'film "{self.films.tableRetrieve(vertoning.film_id)[0].titel}" begint')
 
+    # def createLog(self, timestamp, datum):
+    #     """
+    #     Creëert een log in een htmlbestand.
+    #     Een tabel met voor elke zaal een nieuwe rij met de film en de vertoningen op die dag.
+    #     :return: filename, Succes
+    #     :postcondition: er is een html bestaand aangemaakt met de log
+    #     """
+    #     # Maak een folder logs aan als die nog niet bestaat
+    #     if not os.path.exists('logs'):
+    #         os.makedirs('logs')
+    #
+    #     # Maak een nieuwe html bestand aan of overschrijf het
+    #     log_file = open(f"logs/log{self.log_count}.html", "w")
+    #     file_path = f"logs/log{self.log_count}.html"
+    #     self.log_count += 1  # log_count is voor als we meerdere logbestanden willen maken in 1 run
+    #
+    #     # html basis
+    #     log_file.write("""
+    #     <html><head><meta http-equiv="content-type" content="text/html; charset=windows-1252"><style>
+    #     table {border-collapse: collapse;}
+    #     table, td, th {border: 1px solid black;}
+    #     </style></head><body>
+    #     """)
+    #
+    #     # titel
+    #     log_file.write(f"<h1>Log op {datum} {timestamp}</h1>")
+    #
+    #     # head van de tabel
+    #     # de eerste twee kolommen: datum en film
+    #     log_file.write(f"""
+    #     <table><thead><tr>
+    #     <td>Datum</td>
+    #     <td>Film</td>
+    #     """)
+    #
+    #     # de andere kolommen
+    #     # hangt af van het aantal sloten in Vertoning.py
+    #     for i in Vertoning.sloten:
+    #         log_file.write(f"<td>{i}</td>")
+    #     log_file.write(f"</tr></thead>")
+    #
+    #     # Als er geen vertoningen zijn op die datum
+    #     if self.log.tableRetrieve(datum)[0] is None:
+    #         print(f"geen vertoningen op {datum}")
+    #         return None, False
+    #
+    #     for zaalnummer in self.log.tableRetrieve(datum)[0]:
+    #         film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
+    #
+    #         # Titel
+    #         log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.films.tableRetrieve(film_id)[0].titel}")
+    #
+    #         # Rijen in de tabel
+    #         vertoningen = self.log.tableRetrieve(datum)[0][zaalnummer]
+    #         for vertoning in vertoningen:
+    #             if vertoning is None:
+    #                 log_file.write(f"<td></td>")
+    #
+    #             # F betekent dat de film gestart is gevolgd door het aantal mensen in de zaal
+    #             elif vertoning.gestart:
+    #                 log_file.write(f"<td>F:{vertoning.aanwezig}</td>")
+    #
+    #             # W betekent dat de film wacht om gestart te worden gevolgd
+    #             # door het aantal mensen waarop nog gewacht wordt
+    #             elif vertoning.isOverTime(timestamp):
+    #                 log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
+    #
+    #             # G betekent gepland, gevolgd door het aantal verkochte ticketten
+    #             else:
+    #                 log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
+    #
+    #         log_file.write("</tr></tbody>")
+    #
+    #     log_file.write("</table></body></html>")
+    #
+    #     log_file.close()
+    #     return file_path, True
+
     def createLog(self, timestamp, datum):
         """
         Creëert een log in een htmlbestand.
@@ -262,46 +353,76 @@ class Reservatiesysteem:
 
         # de andere kolommen
         # hangt af van het aantal sloten in Vertoning.py
-        for i in Vertoning.sloten:
-            log_file.write(f"<td>{i}</td>")
+        for slot in Vertoning.sloten:
+            log_file.write(f"<td>{slot}</td>")
         log_file.write(f"</tr></thead>")
 
+        zaal_dict = self.log.tableRetrieve(datum)[0]
+
         # Als er geen vertoningen zijn op die datum
-        if self.log.tableRetrieve(datum)[0] is None:
+        if zaal_dict is None:
             print(f"geen vertoningen op {datum}")
             return None, False
 
-        for zaalnummer in self.log.tableRetrieve(datum)[0]:
-            film_id = self.log.tableRetrieve(datum)[0][zaalnummer][0].film_id
+        # voor elke zaal een nieuwe rij
+        for zaalnummer in zaal_dict:
+            zaal_verts = zaal_dict[zaalnummer]
+            curr_film_id = None
+            vak_items = []
 
-            # Titel
-            log_file.write(f"<tbody><tr><td>{datum}</td><td>{self.films.tableRetrieve(film_id)[0].titel}")
-
-            # Rijen in de tabel
-            vertoningen = self.log.tableRetrieve(datum)[0][zaalnummer]
-            for vertoning in vertoningen:
+            # kolommen in de tabel
+            for vertoning in zaal_verts:
+                # Als er geen vertoningen zijn op die datum
                 if vertoning is None:
-                    log_file.write(f"<td></td>")
+                    vak_items.append(None)
+                    continue
+
+                if curr_film_id is None:
+                    curr_film_id = vertoning.film_id
+
+                # Als er een vertoning in dezelfde zaal is met een andere film
+                # dan een nieuwe rij maken met de andere film
+                elif curr_film_id != vertoning.film_id:
+                    temp_list = deepcopy(vak_items)
+                    while len(temp_list) < len(Vertoning.sloten):
+                        temp_list.append(None)
+
+                    self.addRow(log_file, datum, timestamp, self.films.tableRetrieve(curr_film_id)[0].titel, temp_list)
+                    temp_list2 = []
+                    for item in vak_items:
+                        temp_list2.append(None)
+                    vak_items = temp_list2
+                    curr_film_id = vertoning.film_id
 
                 # F betekent dat de film gestart is gevolgd door het aantal mensen in de zaal
-                elif vertoning.gestart:
-                    log_file.write(f"<td>F:{vertoning.aanwezig}</td>")
+                if vertoning.gestart:
+                    vak_items.append(f"F:{vertoning.aanwezig}")
 
                 # W betekent dat de film wacht om gestart te worden gevolgd
-                # door het aantal mensen waarop nog gewacht wordt
                 elif vertoning.isOverTime(timestamp):
-                    log_file.write(f"<td>W:{vertoning.verwachte_personen.getLength()}</td>")
+                    vak_items.append(f"W:{vertoning.verwachte_personen.getLength()}")
 
                 # G betekent gepland, gevolgd door het aantal verkochte ticketten
                 else:
-                    log_file.write(f"<td>G:{vertoning.verwachte_personen.getLength()}</td>")
+                    vak_items.append(f"G:{vertoning.verwachte_personen.getLength()}")
 
-            log_file.write("</tr></tbody>")
+            self.addRow(log_file, datum, timestamp, self.films.tableRetrieve(curr_film_id)[0].titel, vak_items)
 
         log_file.write("</table></body></html>")
 
         log_file.close()
         return file_path, True
+
+    def addRow(self, log_file, datum, timestamp, filmtitel, vak_items):
+        log_file.write(f"<tbody><tr><td>{datum}</td><td>{filmtitel}</td>")
+
+        for item in vak_items:
+            if item is None:
+                log_file.write("<td></td>")
+            else:
+                log_file.write(f"<td>{item}</td>")
+
+        log_file.write("</tr></tbody>")
 
     def clearLogFiles(self):
         """

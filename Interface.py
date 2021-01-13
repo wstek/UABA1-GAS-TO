@@ -24,7 +24,7 @@ import os
 # INSTELLINGEN
 WIDTH = 800
 HEIGHT = 500
-auto_open_log = True
+auto_open_log = False
 
 
 class ReservatiesysteemInterface(tk.Tk):
@@ -156,7 +156,7 @@ class StartFrame(tk.Frame):
 
         self.date_entry = tk.Entry(self, width=25)
         self.date_entry.pack()
-        tk.Button(self, text="Verander datum (dd/mm/yy)", command=lambda: self.setDate()).pack(pady=5)
+        tk.Button(self, text="Verander datum (dd/mm/yyyy)", command=lambda: self.setDate()).pack(pady=5)
 
         tk.Button(self, text="Reservatie toevoegen", command=lambda: parent.switchFrame(AddReservatieFrame)).pack(pady=10)
         tk.Button(self, text="Update aanwezigen", command=lambda: parent.switchFrame(UpdateAanwezigenFrame)).pack(pady=10)
@@ -414,7 +414,7 @@ class VertoningenFrame(tk.Frame):
         for vertoning_id in temp_list:
             vert = self.sys.vertoningen.tableRetrieve(vertoning_id)[0]
             self.vertoningen_lijst.insert(tk.INSERT, f"\n{vertoning_id}\t{vert.zaalnummer}\t{vert.film_id}" +
-                                          f"\t{vert.sloten[vert.timeslot]}\t{vert.datum}" +
+                                          f"\t{vert.sloten[vert.timeslot - 1]}\t{vert.datum}" +
                                           f"\t\t{vert.aantal_vrije_plaatsen}\t  {vert.aanwezig}\t   {vert.gestart}")
 
         self.vertoningen_lijst.configure(state="disabled")
@@ -476,7 +476,7 @@ class AddVertoningFrame(tk.Frame):
 
         vert_zaal = int(self.zaal_entry.get())
         vert_film = self.film_dict[self.film_entry.get()]
-        vert_slot = Vertoning.sloten.index(self.slot_entry.get())
+        vert_slot = Vertoning.sloten.index(self.slot_entry.get()) + 1
         vert_datum = self.date_entry.get()
         vert_plaatsen = self.sys.zalen.tableRetrieve(vert_zaal)[0].seats
 
