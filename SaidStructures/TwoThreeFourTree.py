@@ -13,6 +13,7 @@ class Node:
 
 class TwoThreeFourTree:
     def __init__(self):
+        self.count = 0
         self.items = []
         self.leftsubtree = None
         self.rightsubtree = None
@@ -798,6 +799,7 @@ class TwoThreeFourTree:
         "Dit is de methode waarmee je waardes in de 234 boom kan zetten"
         if not self.items:  # We kijken hier eerst of onze tree leeg is of niet
             self.items.append(item)
+            self.count += 1
             return True
         else:
             # We gaan hier alle verschillende lengtes af dat onze huidige node kan hebben
@@ -847,12 +849,15 @@ class TwoThreeFourTree:
                         return False
                     if self.items[0].key > item.key:
                         self.items.insert(0, item)
+                        self.count += 1
                         return True
                     if self.items[0].key < item.key < self.items[1].key:
                         self.items.insert(1, item)
+                        self.count += 1
                         return True
                     if self.items[1].key < item.key:
                         self.items.append(item)
+                        self.count += 1
                         return True
             if len(self.items) == 1:
                 # Als onze subtrees bestaan gaan we verderkijken in een van de subtrees
@@ -866,11 +871,13 @@ class TwoThreeFourTree:
                 else:
                     if self.items[0].key < item.key:
                         self.items.append(item)
+                        self.count += 1
                         return True
                     if self.items[0].key == item.key:
                         return False
                     else:
                         self.items.insert(0, item)
+                        self.count += 1
                         return True
 
     def deleteItem(self, key):
@@ -967,9 +974,11 @@ class TwoThreeFourTree:
                     else:
                         if self.items[0].key == key:
                             self.items.pop(0)
+                            self.count -= 1
                             return True
                         elif self.items[1].key == key:
                             self.items.pop()
+                            self.count -= 1
                             return True
                         else:
                             return False
@@ -1044,23 +1053,28 @@ class TwoThreeFourTree:
                     else:
                         if self.items[0].key == key:
                             self.items.pop(0)
+                            self.count -= 1
                             return True
                         elif self.items[1].key == key:
                             self.items.pop(1)
                         elif self.items[2].key == key:
                             self.items.pop()
+                            self.count -= 1
                             return True
                         else:
                             return False
                 else:
                     if self.items[0].key == key:
                         self.items.pop(0)
+                        self.count -= 1
                         return True
                     if self.items[1].key == key:
                         self.items.pop(1)
+                        self.count -= 1
                         return True
                     if self.items[2].key == key:
                         self.items.pop(2)
+                        self.count -= 1
                         return True
             else:
                 if len(self.items) == 1:
@@ -1238,3 +1252,6 @@ class TwoThreeFourTree:
         self.middlesubtree = None
         self.lmiddlesubtree = None
         self.leftsubtree = None
+
+    def getLength(self):
+        return self.count
