@@ -6,9 +6,9 @@ ADT voor reservatiesysteem
 Logbestanden worden in /logs genereerd.
 
 Mogelijke Structuren:
--   TwoThreeFourTreeTable                                - alle 4
+-   BSTTable                                - alle 4
 -   RedBlackTreeTable                       - Sam & William
--   TwoThreeFourTreeTableTable                   - Said & Stein
+-   BSTTableTable                   - Said & Stein
 
 Specifieke structuren:
 -   DubbelgelinkteCirulaireKettingTable     - alle 4
@@ -18,14 +18,14 @@ TijdSloten:
 -   Kunnen worden aangepast in vertoning
 """
 
-# add (name+s)Structures. om een andere structuur te gebruiken example: "from SamStructures.TwoThreeFourTreeTable import *"
+# add (name+s)Structures. om een andere structuur te gebruiken example: "from SamStructures.BSTTable import *"
 from Film import *
 from Reservatie import *
 from Gebruiker import *
 from Zaal import *
 from Vertoning import *
-from BaseStructures.TwoThreeFourTreeTable import *
-from WilliamStructures.Queue import Queue
+from BaseStructures.BSTTable import *
+from BaseStructures.Queue import Queue
 import shlex
 import os
 from copy import deepcopy
@@ -36,13 +36,13 @@ class Reservatiesysteem:
         """
         initialiseerd het reservatiesysteem
         """
-        self.zalen = TwoThreeFourTreeTable()
-        self.films = TwoThreeFourTreeTable()
-        self.vertoningen = TwoThreeFourTreeTable()
-        self.gebruikers = TwoThreeFourTreeTable()
+        self.zalen = BSTTable()
+        self.films = BSTTable()
+        self.vertoningen = BSTTable()
+        self.gebruikers = BSTTable()
         self.reservaties = Queue()
 
-        self.log = TwoThreeFourTreeTable()  # key: datum, value: {zaal_id: [vertoningen op pos slot]}
+        self.log = BSTTable()  # key: datum, value: {zaal_id: [vertoningen op pos slot]}
         self.log_count = 0  # ID van de logfile, zodat die steeds uniek is en er meerdere kunnen gemaakt worden in 1 run
         self.logs_folder = "logs"  # Naam van de folder die de logbestanden bevat
         self.clearLogFiles()
@@ -371,12 +371,12 @@ class Reservatiesysteem:
         self.clearLogFiles()
 
         # clear alle datastructuren
-        self.zalen = TwoThreeFourTreeTable()
-        self.films = TwoThreeFourTreeTable()
-        self.vertoningen = TwoThreeFourTreeTable()
-        self.gebruikers = TwoThreeFourTreeTable()
+        self.zalen = BSTTable()
+        self.films = BSTTable()
+        self.vertoningen = BSTTable()
+        self.gebruikers = BSTTable()
         self.reservaties = Queue()
-        self.log = TwoThreeFourTreeTable()
+        self.log = BSTTable()
 
 
 if __name__ == "__main__":
