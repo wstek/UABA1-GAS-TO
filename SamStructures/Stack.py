@@ -117,6 +117,7 @@ class Stack:
             self.pop()
         # push de elementen in de queue
         for i in range(0, len(stacklist)):
-            self.count += 1
             self.push(stacklist[i])
 
+    def getLength(self):
+        return self.count
