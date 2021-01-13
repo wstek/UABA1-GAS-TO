@@ -108,6 +108,19 @@ class BST:
         if self.rc:
             self.rc.inorderTraverse(functie)
 
+    def getLength(self, count = 0):
+        """
+        gaat de bst af op een inorder manier en voert steeds de meegegeven functie hierop uit
+        par functie: de uit te voeren functie
+        returns: hangt af van de meegegeven functie
+        preconditie: de bst bestaat
+        """
+        count += 1
+        if self.lc:
+            self.lc.inorderTraverse(count)
+        if self.rc:
+            self.rc.inorderTraverse(count)
+
     def destroy(self):
         """
         maakt de boom leeg

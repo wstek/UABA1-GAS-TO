@@ -60,3 +60,6 @@ class BSTTable:
         :return searchTree.load(lijst):
         """
         return self.searchTree.load(lijst)
+
+    def tableLength(self):
+        self.searchTree.getLength()
