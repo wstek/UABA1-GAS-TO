@@ -25,3 +25,6 @@ class TwoThreeFourTreeTable:
 
     def load(self, dict):
         return self.tabel.load(dict)
+
+    def tableLength(self):      #{query}
+        return self.tabel.getLength()
