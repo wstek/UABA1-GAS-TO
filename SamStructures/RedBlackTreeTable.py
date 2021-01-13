@@ -57,3 +57,6 @@ class RedBlackTreeTable:
         :return RBT.load(lijst):
         """
         return self.RBT.load(lijst)
+
+    def tableLength(self):
+        return self.RBT.getLength(0);

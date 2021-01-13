@@ -534,6 +534,24 @@ class RedBlackTree:
         if self.RChild:
             self.RChild.inorderTraverse(functie, False)
 
+    def getLength(self, count, Flag=True):
+        """
+        overloopt de rbt en voort de functie uit op de data in een inorder manier
+        @param Flag: houdt bij of de functie voor de eerste keer overlopen wordt, zodat het vanaf de root kan beginnen
+        @return: hangt af van de meegegeven functie
+        """
+        count += 1
+        if Flag:
+            count = 0
+            self.findRoot().inorderTraverse(count, False)
+
+        if self.LChild:
+            self.LChild.inorderTraverse(count, False)
+
+        if self.RChild:
+            self.RChild.inorderTraverse(count, False)
+        return count
+
     def isTwoNode(self):
         """
         kijkt na of de huidige node een 234 equivalente 2 node is
