@@ -100,9 +100,7 @@ class Reservatiesysteem:
                 timestamp = com_args[1]
 
                 if com_args[2] == "reserveer":
-                    nieuwe_reservatie = Reservatie(int(com_args[3]), int(com_args[4]), int(com_args[5]),
-                                                   timestamp, datum)
-                    self.reservaties.enqueue(nieuwe_reservatie)
+                    self.addReservatie(int(com_args[3]), int(com_args[4]), int(com_args[5]), timestamp, datum)
 
                 if com_args[2] == "ticket":
                     self.updateAanwezigen(int(com_args[3]), int(com_args[4]))
