@@ -514,33 +514,33 @@ class BST:
         return l
 
 
-# Testing
-if __name__ == "__main__":
-    d = {'root': 14, 'value': "test", 'children': [
-            {'root': 7, 'children': [
-                {'root': 5},
-                {'root': 9, 'value': "test2"}
-            ]},
-            {'root': 21, 'children': [
-                {'root': 16, 'children': [
-                    None,
-                    {'root': 17}
-                ]},
-                {'root': 23}]}
-        ]}
-
-    boom = BST()
-    boom.load(d)
-    print(boom.traverse())
-
-    # for i in range(25, 31):
-    #     boom.searchTreeInsert(createTreeItem(i, "new"))
-
-    boom.searchTreeDelete(27)
-    boom.searchTreeInsert(createTreeItem(27))
-
-    boom.clear()
-    boom.toDot()
+# # Testing
+# if __name__ == "__main__":
+#     d = {'root': 14, 'value': "test", 'children': [
+#             {'root': 7, 'children': [
+#                 {'root': 5},
+#                 {'root': 9, 'value': "test2"}
+#             ]},
+#             {'root': 21, 'children': [
+#                 {'root': 16, 'children': [
+#                     None,
+#                     {'root': 17}
+#                 ]},
+#                 {'root': 23}]}
+#         ]}
+#
+#     boom = BST()
+#     boom.load(d)
+#     print(boom.traverse())
+#
+#     # for i in range(25, 31):
+#     #     boom.searchTreeInsert(createTreeItem(i, "new"))
+#
+#     boom.searchTreeDelete(27)
+#     boom.searchTreeInsert(createTreeItem(27))
+#
+#     boom.clear()
+#     boom.toDot()
 
 # # Inginious testing
 # if __name__ == "__main__":
