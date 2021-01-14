@@ -352,13 +352,20 @@ class Reservatiesysteem:
         # zet log_count terug op nul
         self.log_count = 0
 
-        for filename in os.listdir(self.logs_folder):
-            file_path = os.path.join(self.logs_folder, filename)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)
-            except Exception as e:
-                print('Kon het bestand %s niet verwijderen. Reden: %s' % (file_path, e))
+        try:
+            files = os.listdir(self.logs_folder)
+            succes = True
+        except:
+            succes = False
+
+        if succes:
+            for filename in os.listdir(self.logs_folder):
+                file_path = os.path.join(self.logs_folder, filename)
+                try:
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print('Kon het bestand %s niet verwijderen. Reden: %s' % (file_path, e))
 
     def reset(self):
         """
